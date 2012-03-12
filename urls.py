@@ -7,7 +7,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'gradpath.views.home', name='home'),
     # url(r'^gradpath/', include('gradpath.foo.urls')),
-
+    url(r'^$', 'courses.views.home'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
