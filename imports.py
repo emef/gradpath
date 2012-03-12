@@ -19,7 +19,7 @@ def populate_sections():
 
 def populate_courses():
     def clean(string):
-        return string.strip().replace('\n','').replace(r"[\x90-\xff]", '')
+        return unicode(string.strip().replace('\n',''))
     def lookup_section(name):
         return Section.objects.get(abbreviation=name)
     
