@@ -5,8 +5,8 @@ from degrees.models import Degree
      
 class UserProfile(models.Model):
     user = models.ForeignKey(User, unique=True)
-    courses = models.ManyToManyField(Course, Blank=True)
-    degrees = models.ManyToManyField(Degree, Blank=True)
+    courses = models.ManyToManyField(Course, blank=True)
+    degrees = models.ManyToManyField(Degree, blank=True)
 
     def __unicode__(self):
         return 'Profile<%s>' % self.user.username
