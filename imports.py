@@ -19,12 +19,13 @@ def populate_sections():
 
 def populate_courses():
     def clean(string):
-        return string.strip().replace('\n','')
+        return string.strip().replace('\n','').replace(r"[\x90-\xff]", '')
     def lookup_section(name):
         return Section.objects.get(abbreviation=name)
     
     #remove old courses
     for course in Course.objects.all():
+        print 'course %s %s is being deleted' % (course.section.abbreviation, course.number)
         course.delete()
     
     with open('data/courses.csv', 'r') as f:
