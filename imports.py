@@ -44,8 +44,11 @@ def populate_courses():
                             description = descr,
                             prereqs = clean(prereqs),
                             credits = int(clean(credits)))
-                            
-            course.save()
+            
+            try:                
+                course.save()
+            except:
+                pass
                             
 
 IMPORT_FNS = {
