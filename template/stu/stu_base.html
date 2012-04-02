@@ -1,25 +1,7 @@
-{% extends "stu/stu_base.html" %}
+{% extends "base.html" %}
 
-{% block head %}
-<script type="text/javascript">
-  $(document).ready(function() {
-      $("button").button();
-      $("#accordion").accordion({
-          collapsible: true,
-          active: false,
-          autoHeight: false
-       });
-      $( "#prog1" ).progressbar({
-          value: 78
-      }).prepend("<div class='label'>78%</div>");
-      $( "#prog2" ).progressbar({
-          value: 18
-      }).prepend("<div class='label'>18%</div>");
-      $( "#prog3" ).progressbar({
-          value: 36
-      }).prepend("<div class='label'>36%</div>");
-  });
-</script>
+{% block title %}
+MyGradPath
 {% endblock %}
 
 {% block leftcol %}
@@ -69,18 +51,3 @@
   </div>
 </div>
 {% endblock leftcol %}
-
-{% block rightcol %}
-
-<img src="/static/img/ph_chart.PNG" />
-
-<h3>CSCI Major (2010-2011):</h3>
-<div id="prog1" class="progressbar"></div>
-<br />
-<h3>MATH Minor (2009-2010):</h3>
-<div id="prog2" class="progressbar"></div>
-<br />
-<h3>ISC Certificate (2010-2011):</h3>
-<div id="prog3" class="progressbar"></div>
-<br />
-{% endblock rightcol %}

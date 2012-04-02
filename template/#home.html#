@@ -1,128 +1,39 @@
-<!DOCTYPE html>
-<head>
-<title>MyGradPath</title>
+{% extends "stu/stu_base.html" %}
 
-<link rel="stylesheet" type="text/css" href="/static/css/smoothness/jquery-ui-1.8.18.custom.css" />
-<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-<script src="/static/js/jquery-1.7.1.min.js"></script>
-<script src="/static/js/jquery-ui-1.8.18.custom.min.js"></script>
-<script>
-	$(function() {
-		$("button").button();
-	});
-	$(function() {
-		$("#accordion").accordion({
-			collapsible: true,
-			active: false,
-			autoHeight: false
-		});
-	});
-	$(function() {
-		$( "#prog1" ).progressbar({
-			value: 78
-		}).prepend('<div class="label">78%</div>');
-	});
-	$(function() {
-		$( "#prog2" ).progressbar({
-			value: 18
-		}).prepend('<div class="label">18%</div>');
-	});
-	$(function() {
-		$( "#prog3" ).progressbar({
-			value: 36
-		}).prepend('<div class="label">36%</div>');
-	});
+{% block head %}
+<script type="text/javascript">
+  $(document).ready(function() {
+      $("button").button();
+      $("#accordion").accordion({
+          collapsible: true,
+          active: false,
+          autoHeight: false
+       });
+      $( "#prog1" ).progressbar({
+          value: 78
+      }).prepend("<div class='label'>78%</div>");
+      $( "#prog2" ).progressbar({
+          value: 18
+      }).prepend("<div class='label'>18%</div>");
+      $( "#prog3" ).progressbar({
+          value: 36
+      }).prepend("<div class='label'>36%</div>");
+  });
 </script>
-</head>
+{% endblock %}
 
-<body>
 
-<div id="wrapper">
-	<!--Header-->
-    <div id="header">
-    	<form name="signin">
-        	<input name="username" value="Username" onFocus="if(this.value == 'Username') {this.value = ''}" onBlur="if(this.value == '') {this.value = 'Username'}" />
-            <input name="password" value="Password" onFocus="if(this.value == 'Password') {this.value = ''; this.type = 'password'}" onBlur="if(this.value == ''){this.value = 'Password';this.type = 'text'}" />
-            <button type="submit">Login</button>
-            <a href="signup.htm"><button>Sign Up</button></a>
-         </form>
-	</div>
-    
-    <div id="container">
-        
-        <!--Navigation-->
-        <div id="nav">
-            <a href="#"><button>My Progress</button></a>
-            <a href="#"><button>View Degrees</button></a>
-            <a href="#"><button>View Classes</button></a>
-            <a href="#"><button>Manage Degrees</button></a>
-            <a href="#"><button>Manage Classes</button></a>
-            <a href="#"><button>Import Transcript</button></a>
-            
-            <button style="margin-top:40px">FAQ</button>
-            <div id="accordion">
-                <h3><a href="#">What is MGP?</a></h3>
-                <div>
-                    <p>
-                   		MyGradPath is an entirely web based application to help bridge the gap between students and advisors by allowing for online managment of degree requirement satisfaction.
-                    </p>
-                </div>
-                <h3><a href="#">How do I use MGP?</a></h3>
-                <div>
-                    <p>
-                    	Please see our brief introductory demo video, availible <i>here</i>.
-                    </p>
-                </div>
-                <h3><a href="#">Who Developed MGP?</a></h3>
-                <div>
-                    <p>
-                    	MyGradPath was developed over the 2011-2012 school year by Western Washington University students Conner Reeves and Matt Forbes as part of the CS departments's senior project program.
-                    </p>
-                </div>
-                <h3><a href="#">Feature Suggestions</a></h3>
-                <div>
-                    <p>
-                    	If you have suggestions for features for the MyGradPath website, please feel free to suggest them! Our project email address is <i><a href="mailto:mygradpath@gmail.com">MyGradPath@Gmail.com</a></i>.
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <!--Page Content-->
-        <div id="content">
-            
-            <img src="/static/img/ph_chart.PNG" />
-            
-            <h3>CSCI Major (2010-2011):</h3>
-            <div id="prog1" class="progressbar"></div>
-            <br />
-            <h3>MATH Minor (2009-2010):</h3>
-            <div id="prog2" class="progressbar"></div>
-            <br />
-            <h3>ISC Certificate (2010-2011):</h3>
-            <div id="prog3" class="progressbar"></div>
-            <br />
-        </div>
-    
-    </div>
-    
-</div>
+{% block rightcol %}
 
-<!--Footer-->
-<div id="footer">
-	<div id="footerContent">
-    	<div id="left">
-        	Conner Reeves<br />
-            <a href="http://connerscodes.com">ConnersCodes.com</a><br />
-            <a href="mailto:conner@connerscodes.com">Email</a> | <a href="http://www.linkedin.com/profile/view?id=152671661">Linkedin</a>
-        </div>
-        <div id="right">
-        	Matt Forbes<br />
-            <a href="http://ma.ttforbes.com">ma.ttforbes.com</a><br />
-            <a href="mailto:m@ttforbes.com">Email</a> | <a href="http://www.linkedin.com/profile/view?id=161980363">Linkedin</a>
-        </div>
-    </div>
-</div>
+<img src="/static/img/ph_chart.PNG" />
 
-</body>
-</html>
+<h3>CSCI Major (2010-2011):</h3>
+<div id="prog1" class="progressbar"></div>
+<br />
+<h3>MATH Minor (2009-2010):</h3>
+<div id="prog2" class="progressbar"></div>
+<br />
+<h3>ISC Certificate (2010-2011):</h3>
+<div id="prog3" class="progressbar"></div>
+<br />
+{% endblock rightcol %}
