@@ -2,7 +2,7 @@ from django.conf.urls.defaults import patterns, include, url
 from django.conf import settings
 from django.conf.urls.static import static
 
-STATIC_DIR = '/home/conner/Dropbox/gradpath'
+STATIC_DIR = '/home/conner/Dropbox/gradpath/static'
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
