@@ -2,11 +2,11 @@
 <head>
   <title>{% block title %} {% endblock %}</title>
 
-  <link rel="stylesheet" type="text/css" href="css/smoothness/jquery-ui-1.8.18.custom.css" />
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
-  <script src="js/jquery-1.7.1.min.js" type="text/javascript"></script>
-  <script src="js/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
-  <script src="js/base.js" type="text/javascript"></script>
+  <link rel="stylesheet" type="text/css" href="/css/smoothness/jquery-ui-1.8.18.custom.css" />
+  <link rel="stylesheet" type="text/css" href="/css/style.css" />
+  <script src="/js/jquery-1.7.1.min.js" type="text/javascript"></script>
+  <script src="/js/jquery-ui-1.8.18.custom.min.js" type="text/javascript"></script>
+  <script src="/js/base.js" type="text/javascript"></script>
   {% block head %}
   {% endblock %}
 </head>
@@ -28,14 +28,14 @@
       
       <!--Navigation-->
       <div id="nav">
-			{% block leftcol %}
-			{% endblock %}
+	{% block leftcol %}
+	{% endblock %}
       </div>
       
       <!--Page Content-->
       <div id="content">
-		   {% block rightcol %}
-		   {% endblock %}
+	{% block rightcol %}
+	{% endblock %}
       </div>
       
     </div>
