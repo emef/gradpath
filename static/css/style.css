@@ -9,7 +9,7 @@ a {
 html,body {
      height:100%;
 	 background-color:#F6F6F6;
-	 background-image:url(/static/img/topbar.png);
+	 background-image:url(/img/topbar.png);
 	 background-repeat:repeat-x;
 	 background-position:top;
 	 font-family:Verdana, Geneva, sans-serif;
@@ -22,7 +22,7 @@ html,body {
 	width:1000px;
 	line-height:1;
 	margin:auto;
-	background-image:url(/static/img/title.png);
+	background-image:url(/img/title.png);
 	background-repeat:no-repeat;
 	background-position:left;
 	text-align:right;
@@ -45,7 +45,7 @@ input {
 	width:200px;
 	min-height:500px;
 	margin-top:1px;
-	background-image:url(/static/img/vertborder.png);
+	background-image:url(/img/vertborder.png);
 	background-repeat:no-repeat;
 	background-position:top right;
 	padding-top:12px;
@@ -64,12 +64,12 @@ input {
 	width:765px;
 	min-height:500px;
 	padding: 15px 20px 100px 15px;
-	background-image:url(/static/img/vertborder.png);
+	background-image:url(/img/vertborder.png);
 	background-repeat:no-repeat;
 	background-position:top right;
 }
 #footer {
-	background-image:url(/static/img/bottombar.png);
+	background-image:url(/img/bottombar.png);
    position: relative;
    margin-top:-54px;
 	height:54px;
