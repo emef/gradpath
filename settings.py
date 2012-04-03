@@ -1,4 +1,4 @@
-PROJECT_DIR = '/Users/mattforbes/school/492/gradpath'
+PROJECT_DIR = '/home/conner/Dropbox/gradpath'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

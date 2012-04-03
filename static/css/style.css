@@ -29,18 +29,55 @@ html,body {
 	height:27px;
 }
 #header > form {
-	padding:4px 23px 0 0;
+	padding:4px 15px 0 0;
+}
+#header button {
+	height:19px;
+}
+input {
+	height:18px;
+	background-color:#EDEDED;
+	border:1px solid #AAA;
+	color:#555;
+}
+#nav {
+	float:left;
+	width:200px;
+	min-height:500px;
+	margin-top:1px;
+	background-image:url(/static/img/vertborder.png);
+	background-repeat:no-repeat;
+	background-position:top right;
+	padding-top:12px;
+}
+#nav button {
+	width:190px;
+	padding:2px 0;
+	margin:2px 0;
+}
+#container {
+	width:1000px;
+	margin:auto;	
+}
+#content {
+	float:right;
+	width:765px;
+	min-height:500px;
+	padding: 15px 20px 100px 15px;
+	background-image:url(/static/img/vertborder.png);
+	background-repeat:no-repeat;
+	background-position:top right;
 }
 #footer {
 	background-image:url(/static/img/bottombar.png);
-    position: relative;
-    margin-top:-100px;
-	height:100px;
+   position: relative;
+   margin-top:-54px;
+	height:54px;
 }
 #footerContent {
 	width:400px;
 	margin:auto;
-	padding-top:30px;
+	padding-top:12px;
 	font-size:10px;
 	color:#F6F6F6;
 }
@@ -58,62 +95,4 @@ html,body {
 	padding-left:8px;a
 	margin-left:1px;
 	border-left:1px solid #F6F6F6;
-}
-input {
-	height:18px;
-	background-color:#EDEDED;
-	border:1px solid #AAA;s
-	color:#555;
-}
-#container {
-	width:1000px;
-	margin:auto;	
-}
-#content {
-	float:right;
-	width:765px;
-	min-height:500px;
-	padding: 15px 20px 100px 15px;
-	background-image:url(/static/img/vertborder.png);
-	background-repeat:no-repeat;
-	background-position:top right;
-}
-#nav {
-	float:left;
-	width:200px;
-	min-height:500px;
-	margin-top:1px;
-	background-image:url(/static/img/vertborder.png);
-	background-repeat:no-repeat;
-	background-position:top right;
-	padding-top:12px;
-}
-#nav button {
-	width:190px;
-	padding:2px 0;
-	margin:2px 0;
-}
-#accordion {
-	width:190px;
-}
-img {
-	-moz-box-shadow:0px 0px 10px #000;
-	-webkit-box-shadow:0px 0px 10px #000;
-	box-shadow:0px 0px 10px #000;
-	margin-bottom:30px;
-}
-h3 {
-	font-size:12px;
-	font-weight:normal;
-	margin-bottom:3px;
-}
-.label {
-	color:#555;
-	position:absolute;
-	width:760px;
-	text-align:center;
-	line-height:1.9em;
-}
-.progressbar {
-	width:760px;	
 }
