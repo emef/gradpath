@@ -5,6 +5,18 @@ MyGradPath
 {% endblock %}
 
 {% block leftcol %}
+
+<script type="text/javascript">
+  $(document).ready(function() {
+      $("button").button();
+      $("#accordion").accordion({
+          collapsible: true,
+          active: false,
+          autoHeight: false
+       });
+  });
+</script>
+
 <a href="#"><button>My Progress</button></a>
 <a href="#"><button>View Degrees</button></a>
 <a href="#"><button>View Classes</button></a>
