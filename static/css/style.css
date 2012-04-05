@@ -69,10 +69,11 @@ input {
 	background-position:top right;
 }
 #footer {
-	background-image:url(/img/bottombar.png);
-   position: relative;
+    background-image:url(/img/bottombar.png);
+   position: fixed;
    margin-top:-54px;
-	height:54px;
+   height:54px;
+   width: 100%;
 }
 #footerContent {
 	width:400px;
@@ -96,3 +97,28 @@ input {
 	margin-left:1px;
 	border-left:1px solid #F6F6F6;
 }
+
+/* forms (table) */
+form > table {
+    margin: 20px 0px;
+}
+
+form > table td {
+    padding: 0px 5px;
+}
+
+form > table td > input[type=text], 
+form > table td > input[type=password] {
+    width: 150px;
+}
+
+form > table td > input[type=submit] {
+    margin-top: 10px;
+}
+
+/* select td #3 */
+form > table td + td + td {
+    font-size: 10pt;
+    color: red;
+}
+    

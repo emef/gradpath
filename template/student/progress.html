@@ -1,0 +1,32 @@
+{% extends "student/student_base.html" %}
+
+{% block title %}
+MyGradPath
+{% endblock %}
+
+{% block rightcol %}
+<img src="/img/ph_chart.PNG" />
+
+<h3>CSCI Major (2010-2011):</h3>
+<div id="prog1" class="progressbar"></div>
+<br />
+<h3>MATH Minor (2009-2010):</h3>
+<div id="prog2" class="progressbar"></div>
+<br />
+<h3>ISC Certificate (2010-2011):</h3>
+<div id="prog3" class="progressbar"></div>
+<br />
+<script type="text/javascript">
+  $(document).ready(function() {
+      $( "#prog1" ).progressbar({
+          value: 78
+      }).prepend("<div class='label'>78%</div>");
+      $( "#prog2" ).progressbar({
+          value: 18
+      }).prepend("<div class='label'>18%</div>");
+      $( "#prog3" ).progressbar({
+          value: 36
+      }).prepend("<div class='label'>36%</div>");
+  });
+</script>
+{% endblock rightcol %}

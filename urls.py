@@ -9,10 +9,14 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', 'courses.views.home'),
-    url(r'user/', include('profiles.urls')),
+    url(r'^$', 'profiles.views.home'),
+    url(r'^register/', 'profiles.views.register'),
+    url(r'^login/', 'profiles.views.login'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^student/', include('student.urls')),
+    url(r'^administrator/', include('administrator.urls')),
+    url(r'^adviser/', include('adviser.urls')),
 
     #Static files
     url(r'^css/(?P<path>.+)$', 'django.views.static.serve', {'document_root': '%s/css' % STATIC_DIR}),

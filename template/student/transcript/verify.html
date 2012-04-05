@@ -1,0 +1,44 @@
+{% extends "student/student_base.html" %}
+
+{% block title %}Verify Transcript Import{% endblock %}
+
+{% block head %}
+<style>
+	td {
+	     color: black !important;
+		border:1px solid black;
+		text-align:center;
+	}
+	td:nth-child(1) {
+		width:25px;
+	}
+	td:nth-child(2) {
+		width:250px;
+		text-align:left;
+	}
+	td:nth-child(3) {
+		width:200px;
+	}
+	td:nth-child(4) {
+	    width: 50px;
+	}
+</style>
+{% endblock %}
+
+{% block rightcol %}
+<h3>Select courses to add to your records.</h3>
+<form action="/student/transcript/submit/" method="POST">
+  {% csrf_token %}
+  <table>
+    {% for course in courses %}
+    <tr>
+      <td><input name="course_id_here" type="checkbox" checked="yes"></td>
+      <td>{{ course.section.name }} {{ course.number }}</td>
+      <td>{{ course.title }}</td>
+      <td>{{ course.credits }} credits </td>
+    </tr>
+    {% endfor %}
+  </table>
+  <input type="submit" value="Submit" />
+</form>
+{% endblock %}

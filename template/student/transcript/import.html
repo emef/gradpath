@@ -1,0 +1,36 @@
+{% extends "student/student_base.html" %}
+
+{% block title %}Import Transcript{% endblock %}
+
+{% block head %}
+<style>
+	#form_wrapper {
+		margin: auto;
+		width: 750px;
+		text-align: right;
+	}
+	#form_wrapper textarea {
+		width: 750px;
+		height: 500px;	
+	}
+	ol {
+		margin:0 0 10px 40px;
+	}
+</style>
+{% endblock %}
+
+{% block rightcol %}
+<ol>
+  <li>Copy your <a href="https://admin.wwu.edu/pls/wwis/wwskahst.WWU_ViewTran" target="_blank"><i>transcript</i></a>.</li>
+  <li>Paste your transcript in the box below.</li>
+</ol>
+
+<div id="form_wrapper">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <textarea name="transcript" required="required"></textarea><br>
+    <input type="submit" value="Submit" />
+  </form>
+</div>
+
+{% endblock %}
