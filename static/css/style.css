@@ -31,13 +31,10 @@ html,body {
 #header > form {
 	padding:4px 15px 0 0;
 }
-#header button {
-	height:19px;
-}
 input {
 	height:18px;
 	background-color:#EDEDED;
-	border:1px solid #AAA;
+	border:1px solid #AAA;s
 	color:#555;
 }
 #nav {
