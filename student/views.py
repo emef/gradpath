@@ -16,12 +16,10 @@ def progress(request):
 def courses_manage(request):
     profile = get_profile(request)
     if profile:
-        print 'profile'
-        data = { 'courses': list(profile.courses.all()) }
+        data = { 'records': [(r.course, r.grade) for r in profile.records]  }
         return render_to(request, 'student/courses/manage.html', data)
     else:
         # NOT IMPLEMENNTED
-        print 'fail'
         pass
     
     return render_to(request, 'student/courses/manage.html')
