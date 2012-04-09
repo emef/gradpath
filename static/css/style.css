@@ -28,8 +28,10 @@ html,body {
 	text-align:right;
 	height:27px;
 }
-#header > form {
-	padding:4px 15px 0 0;
+#header > div#login {
+    font-size: 10pt;
+    padding:4px 15px 0 0;
+    color: white;
 }
 input {
 	height:18px;
@@ -95,26 +97,26 @@ input {
 	border-left:1px solid #F6F6F6;
 }
 
-/* forms (table) */
-form > table {
+/* forms (registration) */
+form.register > table {
     margin: 20px 0px;
 }
 
-form > table td {
+form.register > table td {
     padding: 0px 5px;
 }
 
-form > table td > input[type=text], 
-form > table td > input[type=password] {
+form.register > table td > input[type=text], 
+form.register > table td > input[type=password] {
     width: 150px;
 }
 
-form > table td > input[type=submit] {
+form.register > table td > input[type=submit] {
     margin-top: 10px;
 }
 
 /* select td #3 */
-form > table td + td + td {
+form.register > table td + td + td {
     font-size: 10pt;
     color: red;
 }

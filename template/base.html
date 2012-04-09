@@ -16,26 +16,32 @@
   <div id="wrapper">
     <!--Header-->
     <div id="header">
-      <form name="signin">
-        <input name="username" value="Username" class="default" />
-        <input name="password" value="Password" class="default pw"  />
-        <button type="submit">Login</button>
-        <a href="signup.html"><button>Sign Up</button></a>
-      </form>
+      <div id="login">
+	{% if user.is_authenticated %}
+	Logged in as {{ user.username }} 
+	<a href="/logout/"><button >Logout</button></a>
+	{% else %}
+	<span id="login_error"></span>
+	<input name="username" value="Username" class="default" />
+	<input name="password" value="Password" class="default pw"  />
+	<button id="login_btn" type="submit">Login</button>
+	<a href="/register/"><button>Sign Up</button></a>
+	{% endif %}
+      </div>
     </div>
     
     <div id="container">
       
       <!--Navigation-->
       <div id="nav">
-			{% block leftcol %}
-			{% endblock %}
+	{% block leftcol %}
+	{% endblock %}
       </div>
       
       <!--Page Content-->
       <div id="content">
-			{% block rightcol %}
-			{% endblock %}
+	{% block rightcol %}
+	{% endblock %}
       </div>
       
     </div>

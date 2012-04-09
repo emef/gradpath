@@ -1,6 +1,9 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.http import HttpResponse
 from gradpath.profiles.models import UserProfile
+
+import simplejson as json
 
 def render_to(request, template_name, *args):
     output = args[0] if len(args) > 0 else {}
@@ -17,4 +20,6 @@ def get_profile(request):
         return UserProfile.objects.get(user=request.user)
     except UserProfile.DoesNotExist:
         return None
-    
+
+def json_response(resp):
+    return HttpResponse(json.dumps(resp), mimetype="application/json")

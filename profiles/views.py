@@ -1,8 +1,9 @@
 from django.shortcuts import render_to_response, redirect
-from gradpath import render_to, extract
+from gradpath import render_to, extract, json_response
 from gradpath.profiles.models import UserProfile
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
-from django.contrib.auth import login
+from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 
 # conner: add to settings.py: "REQUIRE_ACTIVATION = False"
@@ -14,7 +15,38 @@ def home(request):
 def import_transcript(request):
     return render_to(request, 'profiles/import.html')
     
-def register(request):
+def logout_user(request):
+    logout(request)
+    return redirect('/')
+
+# AJAX REQUEST
+@csrf_exempt
+def login_user(request):
+    username, password = extract(request.POST, 'username', 'password')
+    user = authenticate(username=username, password=password)
+    error = None
+    if user is not None:
+        if settings.REQUIRE_ACTIVATION and not user.active:
+            # user created, but didn't finish email activation
+            error = 'This account has not been activated, please see your email or click <here>.'
+        else:
+            # success
+            login(request, user)
+    else:
+        error = 'Username/password combination was incorrect.'
+        
+    resp = None
+    if error is not None:
+        resp = {'status': 'error',
+                'message': error}
+    else:
+        # CHANGE REDIRECT BASED ON USER'S GROUP
+        resp = {'status': 'okay',
+                'redirect': '/student/courses/manage/'}
+        
+    return json_response(resp)
+
+def register_user(request):
     output = {}
     if request.method == 'POST':
         errors = {}
@@ -52,9 +84,6 @@ def register(request):
             user.set_password(pw1)
             user.is_active = True
             user.save()
-
-            profile = UserProfile(user=user)
-            profile.save()
             
             # SUCCESS, redirect...
             if REQUIRE_ACTIVATION:

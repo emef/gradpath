@@ -10,8 +10,9 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', 'profiles.views.home'),
-    url(r'^register/', 'profiles.views.register'),
-    url(r'^login/', 'profiles.views.login'),
+    url(r'^register/', 'profiles.views.register_user'),
+    url(r'^login/', 'profiles.views.login_user'),
+    url(r'^logout/', 'profiles.views.logout_user'),
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^student/', include('student.urls')),
