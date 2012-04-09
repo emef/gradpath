@@ -67,3 +67,6 @@ def register(request):
 
 def activate(request):
     pass
+    
+def home(request):
+	return render_to(request, 'student/student_base.html')
