@@ -5,8 +5,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
-
-# conner: add to settings.py: "REQUIRE_ACTIVATION = False"
 REQUIRE_ACTIVATION = settings.REQUIRE_ACTIVATION
 
 def home(request):
@@ -76,7 +74,6 @@ def register_user(request):
             errors['password1'] = 'Passwords must match'
 
         # ... end of validation
-            
         
         if len(errors) == 0:
             # first create User, then UserProfile
@@ -105,3 +102,6 @@ def register_user(request):
 
 def activate(request):
     pass
+    
+def home(request):
+	return render_to(request, 'student/student_base.html')
