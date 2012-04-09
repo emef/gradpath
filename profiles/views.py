@@ -4,16 +4,8 @@ from gradpath.profiles.models import UserProfile
 from django.contrib.auth.models import User
 from django.contrib.auth import login
 from django.conf import settings
-
-# conner: add to settings.py: "REQUIRE_ACTIVATION = False"
 REQUIRE_ACTIVATION = settings.REQUIRE_ACTIVATION
 
-def home(request):
-    return render_to(request, 'profiles/home.html')
-
-def import_transcript(request):
-    return render_to(request, 'profiles/import.html')
-    
 def register(request):
     output = {}
     if request.method == 'POST':
@@ -44,7 +36,6 @@ def register(request):
             errors['password1'] = 'Passwords must match'
 
         # ... end of validation
-            
         
         if len(errors) == 0:
             # first create User, then UserProfile
