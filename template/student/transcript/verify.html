@@ -4,38 +4,28 @@
 
 {% block head %}
 <style>
+	table {
+		-moz-box-shadow: 0 0 5px #000;
+		-webkit-box-shadow: 0 0 5px #000;
+		box-shadow: 0 0 5px #000;
+	}
 	td {
-	     color: black !important;
 		border:1px solid black;
-		text-align:center;
-	}
-	td:nth-child(1) {
-		width:25px;
-	}
-	td:nth-child(2) {
-		width:250px;
-		text-align:left;
-	}
-	td:nth-child(3) {
-		width:200px;
-	}
-	td:nth-child(4) {
-	    width: 50px;
 	}
 </style>
 {% endblock %}
 
 {% block rightcol %}
-<h3>Select courses to add to your records.</h3>
+<h3>Select which courses to add to your records.</h3>
 <form action="/student/transcript/submit/" method="POST">
   {% csrf_token %}
   <table>
     {% for course in courses %}
     <tr>
-      <td><input name="course_id_here" type="checkbox" checked="yes"></td>
-      <td>{{ course.section.name }} {{ course.number }}</td>
-      <td>{{ course.title }}</td>
-      <td>{{ course.credits }} credits </td>
+      <td ><input name="course_id_here" type="checkbox" checked="yes"></td>
+      <td width="50%">{{ course.section.name }} {{ course.number }}</td>
+      <td width="50%" style="color:black">{{ course.title }}</td>
+      <td style="color:black">{{ course.credits }}</td>
     </tr>
     {% endfor %}
   </table>
