@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from gradpath import render_to, get_profile
 from gradpath.courses.models import Course
+from gradpath.profiles.models import Record
 import re
 
 ######################################################################
@@ -14,9 +15,9 @@ def progress(request):
 
 # add/remove classes a student has selected
 def courses_manage(request):
-    profile = get_profile(request)
+    profile = request.user.get_profile()
     if profile:
-        data = { 'records': [(r.course, r.grade) for r in profile.records]  }
+        data = { 'records': [(r.course, r.grade) for r in profile.record_set.all()]  }
         return render_to(request, 'student/courses/manage.html', data)
     else:
         # NOT IMPLEMENNTED
@@ -32,14 +33,14 @@ def courses_list(request):
 # DEGREES VIEWS
 
 def degrees_manage(request):
-    pass
+    return render_to(request, 'student/degrees/manage.html')
 
 def degrees_list(request):
     return render_to(request, 'student/degrees/list.html')
 
 ######################################################################
 # TRANSCRIPT VIEWS
-TRANSCRIPT_RE = re.compile(r'([A-Z/]{2,4}) (\d{3})')
+TRANSCRIPT_RE = re.compile(r'([A-Z/]{2,4})[ ]+(\d{3})')
     
 def transcript_import(request):
     user_input = request.POST.get('transcript', None)
@@ -80,4 +81,13 @@ def transcript_import(request):
         
 def transcript_submit(request):
     # if everything okay
+    profile = request.user.get_profile()
+    
+    for key,val in request.POST.items():
+        try:
+            id = int(key)
+            course = Course.objects.get(id=id)
+            Record.objects.create(profile=profile, course=course, grade='4.0')
+        except ValueError:
+            pass
     return redirect('/student/courses/manage/')

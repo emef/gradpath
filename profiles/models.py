@@ -12,6 +12,7 @@ class UserProfile(models.Model):
         return 'Profile<%s>' % self.user.username
 
 class Record(models.Model):
+    profile = models.ForeignKey(UserProfile)
     course = models.ForeignKey(Course)
     grade = models.DecimalField(blank=True, max_digits=3, decimal_places=2)
     
