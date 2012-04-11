@@ -54,6 +54,13 @@ def courses_manage(request):
 	
 	return render_to(request, 'student/courses/manage.html')
 
+#Helper function to remove course from the db
+def courses_remove(request):
+	profile = request.user.get_profile()
+	course = Course.objects.get(id=int(request.GET['id']))
+	Record.objects.filter(profile=profile, course=course).delete()
+	return redirect('/student/courses/manage/')
+
 # shows organized view of all courses, allows you to view/add them
 def courses_list(request):
 	return render_to(request, 'student/courses/list.html')
@@ -120,7 +127,10 @@ def transcript_submit(request):
 			id = int(key.split(':')[0])
 			grade = float(key.split(':')[1])
 			course = Course.objects.get(id=id)
-			Record.objects.create(profile=profile, course=course, grade=grade)
+			try:
+				Record.objects.get(profile=profile, course=course, grade=grade)
+			except:
+				Record.objects.create(profile=profile, course=course, grade=grade)
 		except ValueError:
 			pass
 	return redirect('/student/courses/manage/')
