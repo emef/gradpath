@@ -5,9 +5,7 @@
 {% block head %}
 <style>
 	table {
-		-moz-box-shadow: 0 0 5px #000;
-		-webkit-box-shadow: 0 0 5px #000;
-		box-shadow: 0 0 5px #000;
+		padding:3px;
 	}
 	td {
 		border:1px solid black;
@@ -19,13 +17,13 @@
 <h3>Select which courses to add to your records.</h3>
 <form action="/student/transcript/submit/" method="POST">
   {% csrf_token %}
-  <table>
+  <table width="100%">
     {% for course in courses %}
     <tr>
-      <td ><input name="{{ course.id }}" type="checkbox" checked="yes"></td>
-      <td style="text-align:right" width="20%">{{ course.section.abbreviation }} {{ course.number }}</td>
-      <td style="color:black" width="80%">{{ course.title }}</td>
-      <td style="color:black">{{ course.credits }}</td>
+      <td style="text-align:center;width:20px;"><input name="{{ course.0.id }}:{{ course.1 }}" type="checkbox" checked="yes"></td>
+      <td style="text-align:right;padding-right:8px;">{{ course.0.section.abbreviation }} {{ course.0.number }}</td>
+      <td style="color:black;padding-left:8px;">{{ course.0.title }}</td>
+      <td style="color:black;text-align:center;width:20px;">{{ course.0.credits }}</td>
     </tr>
     {% endfor %}
   </table>
