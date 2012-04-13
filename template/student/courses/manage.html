@@ -18,7 +18,7 @@
       <td style="text-align:right;padding-right:8px;width:100px;">{{ course.0.section.abbreviation }} {{ course.0.number }}</td>
       <td style="color:black;padding-left:8px;">{{ course.0.title }}</td>
       <td style="color:black;text-align:center;width:30px;">{{ course.1 }}</td>
-      <td style="text-align:center;width:30px;"><a href="/student/courses/remove/?id={{ course.0.id }}"><img src="/img/remove_icon.png" /></a></td>
+      <td style="text-align:center;width:30px;"><a href="/student/courses/remove/?id={{ course.0.id }}&date={{ course.2 }}"><img src="/img/remove_icon.png" /></a></td>
     </tr>
 {% endfor %}
 </table>

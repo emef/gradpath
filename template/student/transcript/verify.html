@@ -20,7 +20,7 @@
   <table width="100%">
     {% for course in courses %}
     <tr>
-      <td style="text-align:center;width:20px;"><input name="{{ course.0.id }}:{{ course.1 }}" type="checkbox" checked="yes"></td>
+      <td style="text-align:center;width:20px;"><input name="{{ course.0.id }}:{{ course.1 }}:{{ course.2 }}" type="checkbox" checked="yes"></td>
       <td style="text-align:right;padding-right:8px;">{{ course.0.section.abbreviation }} {{ course.0.number }}</td>
       <td style="color:black;padding-left:8px;">{{ course.0.title }}</td>
       <td style="color:black;text-align:center;width:20px;">{{ course.0.credits }}</td>
