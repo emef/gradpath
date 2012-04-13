@@ -132,6 +132,7 @@ def transcript_submit(request):
 			date = datetime.date(year, month, day)
 			course = Course.objects.get(id=id)
 			try:
+				print str(course) + str(date)
 				Record.objects.get(profile=profile, course=course, grade=grade, date=date)
 			except:
 				Record.objects.create(profile=profile, course=course, grade=grade, date=date)
