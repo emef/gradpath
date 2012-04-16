@@ -40,24 +40,24 @@ def degrees_list(request):
 
 ######################################################################
 # TRANSCRIPT VIEWS
-TRANSCRIPT_RE = re.compile(r'([A-Z/]{2,4})[ ]+(\d{3})')
+TRANSCRIPT_RE = re.compile(r'([A-Z/]{2,4})[ ]+(\d{3}).+ \d [ ]*([A-FUS])')
     
 def transcript_import(request):
     user_input = request.POST.get('transcript', None)
     
     # POST REQUEST
     if user_input is not None:
-        courses = []
+        items = []
         dne = []
         multiple = []
         
         for match in re.finditer(TRANSCRIPT_RE, user_input):
-            section, number = (str(match.group(1)), int(match.group(2)))
+            section, number, grade = (str(match.group(1)), int(match.group(2)), str(match.group(3)))
             
             try:
                 course = Course.objects.get(section__abbreviation=section, 
                                             number=number)
-                courses.append(course)
+                items.append({'course': course, 'grade': grade})
                 
             except Course.DoesNotExist:
                 dne.append( (section, number) )
@@ -67,7 +67,7 @@ def transcript_import(request):
                 # don't add any, but tell the student something broke
                 multiple.append( (section, number) )
             
-        data = { 'courses': courses,
+        data = { 'items': items,
                  'dne': dne,
                  'multiple': multiple }
         
