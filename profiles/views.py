@@ -76,7 +76,6 @@ def register_user(request):
         # ... end of validation
         
         if len(errors) == 0:
-            # first create User, then UserProfile
             user = User(username=username)
             user.set_password(pw1)
             user.is_active = True
