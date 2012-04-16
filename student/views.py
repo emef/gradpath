@@ -17,32 +17,21 @@ def progress(request):
 # add/remove classes a student has selected
 def courses_manage(request):
 	def get_letter(gpa):
-		gpa = float(gpa)
-		if gpa == 4.0:
-			return 'A'
-		if gpa == 3.7:
-			return 'A-'
-		if gpa == 3.3:
-			return 'B+'
-		if gpa == 3.0:
-			return 'B'
-		if gpa == 2.7:
-			return 'B-'
-		if gpa == 2.3:
-			return 'C+'
-		if gpa == 2.0:
-			return 'C'
-		if gpa == 1.7:
-			return 'C-'
-		if gpa == 1.3:
-			return 'D+'
-		if gpa == 1.0:
-			return 'D'
-		if gpa == 0.7:
-			return 'D-'
-		if gpa == 0.0:
-			return 'F'
-		return ''
+		grade_values = {
+			'4'   : 'A'  ,
+			'3.7' : 'A-' ,
+			'3.3' : 'B+' ,
+			'3'   : 'B'  ,
+			'2.7' : 'B-' ,
+			'2.3' : 'C+' ,
+			'2'   : 'C'  ,
+			'1.7' : 'C-' ,
+			'1.3' : 'D+' ,
+			'1'   : 'D'  ,
+			'0.7' : 'D-' ,
+			'0'   : 'F'
+		}
+		return grade_values.get(str(gpa), '')
 	
 	profile = request.user.get_profile()
 	if profile:
@@ -126,10 +115,8 @@ def transcript_submit(request):
 		try:
 			id = int(key.split(':')[0])
 			grade = float(key.split(':')[1])
-			year = int(key.split(':')[2].split('-')[0])
-			month = int(key.split(':')[2].split('-')[1])
-			day = int(key.split(':')[2].split('-')[2])
-			date = datetime.date(year, month, day)
+			dateTup = key.split(':')[2].split('-')
+			date = datetime.date(int(dateTup[0]), int(dateTup[1]), int(dateTup[2]))
 			course = Course.objects.get(id=id)
 			try:
 				print str(course) + str(date)
