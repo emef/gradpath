@@ -14,7 +14,8 @@ class UserProfile(models.Model):
 class Record(models.Model):
     profile = models.ForeignKey(UserProfile)
     course = models.ForeignKey(Course)
-    grade = models.CharField(max_length=3, blank=True)
+    grade = models.DecimalField(max_digits=3, decimal_places=2)
+    date = models.DateField(auto_now=False, auto_now_add=False)
     
     def __unicode__(self):
         return 'Record<%s %s, %s>' % (self.course.section.abbreviation, 
@@ -30,3 +31,4 @@ def create_user_profile(sender, instance, created, **kwargs):
         
 # register signal
 post_save.connect(create_user_profile, sender=User, dispatch_uid='create_user_profile')
+        
