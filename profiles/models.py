@@ -14,7 +14,7 @@ class UserProfile(models.Model):
 class Record(models.Model):
     profile = models.ForeignKey(UserProfile)
     course = models.ForeignKey(Course)
-    grade = models.DecimalField(max_digits=3, decimal_places=2)
+    grade = models.CharField(max_length=3)
     date = models.DateField(auto_now=False, auto_now_add=False)
     
     def __unicode__(self):

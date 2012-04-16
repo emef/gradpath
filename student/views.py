@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from gradpath import render_to, get_profile
 from gradpath.courses.models import Course
 from gradpath.profiles.models import Record
+from decimal import Decimal
 import re, datetime
 
 
@@ -14,30 +15,28 @@ def progress(request):
 ######################################################################
 # COURSE VIEWS
 
+GPA_MAP = {
+	'4'   : 'A'  ,
+	'3.7' : 'A-' ,
+	'3.3' : 'B+' ,
+	'3'   : 'B'  ,
+	'2.7' : 'B-' ,
+	'2.3' : 'C+' ,
+	'2'   : 'C'  ,
+	'1.7' : 'C-' ,
+	'1.3' : 'D+' ,
+	'1'   : 'D'  ,
+	'0.7' : 'D-' ,
+	'0'   : 'F'
+}
+
 # add/remove classes a student has selected
 def courses_manage(request):
-	def get_letter(gpa):
-		grade_values = {
-			'4'   : 'A'  ,
-			'3.7' : 'A-' ,
-			'3.3' : 'B+' ,
-			'3'   : 'B'  ,
-			'2.7' : 'B-' ,
-			'2.3' : 'C+' ,
-			'2'   : 'C'  ,
-			'1.7' : 'C-' ,
-			'1.3' : 'D+' ,
-			'1'   : 'D'  ,
-			'0.7' : 'D-' ,
-			'0'   : 'F'
-		}
-		return grade_values.get(str(gpa), '')
-	
-	profile = request.user.get_profile()
-	if profile:
-		records = profile.record_set.all()
-		data = { 'records': [(r.course, get_letter(r.grade), str(r.date)) for r in profile.record_set.all()]  }
-		return render_to(request, 'student/courses/manage.html', data)
+        profile = request.user.get_profile()
+        if profile:
+                records = profile.record_set.all()
+                data = { 'records': profile.record_set.all()  }
+                return render_to(request, 'student/courses/manage.html', data)
 	else:
 		# NOT IMPLEMENNTED
 		pass
@@ -67,7 +66,7 @@ def degrees_list(request):
 ######################################################################
 # TRANSCRIPT VIEWS
 
-TRANSCRIPT_RE = re.compile(r'([A-Z/]{2,4})[ ]+(\d{3})   (\d{5}) (.{1,31})\s*(\d)   ([A-F][-,+, ])   ([\d, ]\d.\d)   ([A-Z])  (\d\d)/(\d\d)/(\d\d)')
+TRANSCRIPT_RE = re.compile(r'([A-Z/]{2,4})[ ]+(\d{3})   (\d{5}) (.{1,31})\s*(\d)   ([A-FSU][-,+, ])   ([\d, ]\d.\d)   ([A-Z])  (\d\d)/(\d\d)/(\d\d)')
 
 def transcript_import(request):
 	user_input = request.POST.get('transcript', None)
@@ -83,9 +82,11 @@ def transcript_import(request):
 			
 			try:
 				course = Course.objects.get(section__abbreviation=section, 
-											number=number)
-				grade = float(match.group(7)) / float(match.group(5))
-				date = datetime.date(int(match.group(11)) + 2000, int(match.group(9)), int(match.group(10)))
+							    number=number)
+				grade = match.group(6)
+				date = datetime.date(int(match.group(11)) + 2000, 
+						     int(match.group(9)), 
+						     int(match.group(10)))
 				courses.append( (course, grade, str(date)) )
 				
 			except Course.DoesNotExist:
@@ -97,8 +98,8 @@ def transcript_import(request):
 				multiple.append( (section, number) )
 			
 		data = { 'courses': courses,
-				 'dne': dne,
-				 'multiple': multiple }
+			 'dne': dne,
+			 'multiple': multiple }
 		
 		return render_to(request, 'student/transcript/verify.html', data)
 						 
@@ -114,7 +115,7 @@ def transcript_submit(request):
 	for key,val in request.POST.items():
 		try:
 			id = int(key.split(':')[0])
-			grade = float(key.split(':')[1])
+			grade = key.split(':')[1]
 			dateTup = key.split(':')[2].split('-')
 			date = datetime.date(int(dateTup[0]), int(dateTup[1]), int(dateTup[2]))
 			course = Course.objects.get(id=id)
