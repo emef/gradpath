@@ -5,5 +5,12 @@ MyGradPath
 {% endblock %}
 
 {% block rightcol %}
-<div>Home...</div>
+
+{% for item in progress %}
+<div>
+  <h3>{{ item.degree.name }}</h3>
+  <div>Passed: {{ item.passed }}</div>
+</div>
+{% endfor %}
+
 {% endblock rightcol %}

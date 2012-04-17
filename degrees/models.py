@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from courses.models import Course
 
@@ -13,9 +14,12 @@ class Degree(models.Model):
         (2, 'Minor'),
         (3, 'Certificate'),
     )
-    name = models.CharField(max_length=150)
+    name = models.CharField(max_length=150, unique=True)
     college = models.ForeignKey(College)
     degree_type = models.IntegerField(choices = DEGREE_TYPES)
 
+    def xml(self):
+        return '%s/%s.xml' % (settings.XML_PATH, self.name.replace(' ', '-').lower())
+    
     def __unicode__(self):
         return 'Degree<%s>' % self.name
