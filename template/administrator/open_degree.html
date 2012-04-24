@@ -1,0 +1,31 @@
+{% extends "administrator/administrator_base.html" %}
+
+{% block title %}
+Create Degree
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block rightcol %}
+<h3>Enter degree credentials</h3>
+<br>
+<form action="/administrator/edit_degree/" method="POST">
+	Section: <input name="section"></input>
+	Type:
+	<select name="type">
+		<option value="major">Major</option>
+		<option value="minor">Minor</option>
+		<option value="certificate">Certificate</option>
+	</select>
+	Year:
+	<select name="year">
+		{% for year in years %}
+			<option value="{{ year }}">{{ year }}</option>
+		{% endfor %}
+	</select>
+	
+	<br><br>
+	<input type="submit" value="Submit" />
+</form>
+{% endblock rightcol %}
