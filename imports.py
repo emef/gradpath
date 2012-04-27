@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from django.core.management import setup_environ
 
-import settings, sys
+import settings, sys, re
 setup_environ(settings)
 from courses.models import Course, Section
 
@@ -18,14 +18,35 @@ def populate_sections():
         s.save()
 
 def populate_courses():
+    prereq_map = {}
+    sec_map = {}
+    
     def clean(string):
         return unicode(string.strip().replace('\n',''))
     def lookup_section(name):
         return Section.objects.get(abbreviation=name)
-    
+    def add_prereqs():
+        patstr = '(?:%s) \d{3}' % '|'.join(s.abbreviation for s in Section.objects.all())
+        pat = re.compile(patstr)
+        for course_id, prereqs in prereq_map.items():
+            course = Course.objects.get(pk=course_id)
+            for cstr in pat.findall(prereqs):
+                sec, num = cstr.strip().rsplit(' ', 1)
+                if sec not in sec_map:
+                    try:
+                        sec_map[sec] = Section.objects.get(abbreviation=sec)
+                    except:
+                        print 'EXITING:', cstr
+                        exit()
+                try:
+                    prereq = Course.objects.get(section=sec_map[sec], number=num)
+                    course.prereqs.add(prereq)
+                except:
+                    print 'ERROR: ', sec, num
+                    
     #remove old courses
     for course in Course.objects.all():
-        print 'course %s %s is being deleted' % (course.section.abbreviation, course.number)
+        #print 'course %s %s is being deleted' % (course.section.abbreviation, course.number)
         course.delete()
     
     with open('data/courses.csv', 'r') as f:
@@ -42,14 +63,13 @@ def populate_courses():
                             section = section,
                             number = int(clean(number)),
                             description = descr,
-                            prereqs = clean(prereqs),
                             credits = int(clean(credits)))
+            course.save()
+
+            prereq_map[course.id] = prereqs
             
-            try:                
-                course.save()
-            except:
-                pass
-                            
+    add_prereqs()
+            
 
 IMPORT_FNS = {
     'sections': populate_sections,
