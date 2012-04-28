@@ -9,17 +9,16 @@ def render_to(request, template_name, *args):
     output = args[0] if len(args) > 0 else {}
     return render_to_response(template_name, output, context_instance=RequestContext(request))
 
+def contains(obj, *args):
+    return all (k in obj for k in args)
+        
+
 def extract(obj, *args):
     lst = []
     for key in args:
         lst.append(obj.get(key, None))
     return tuple(lst)
 
-def get_profile(request):
-    try:
-        return UserProfile.objects.get(user=request.user)
-    except UserProfile.DoesNotExist:
-        return None
 
 def json_response(resp):
     return HttpResponse(json.dumps(resp), mimetype="application/json")

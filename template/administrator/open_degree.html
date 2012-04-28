@@ -8,25 +8,12 @@ Create Degree
 {% endblock %}
 
 {% block rightcol %}
-<h3>Enter degree credentials</h3>
-<br>
-<form action="/administrator/edit_degree/" method="POST">
-  {% csrf_token %}
-	Section: <input name="section"></input>
-	Type:
-	<select name="type">
-		<option value="major">Major</option>
-		<option value="minor">Minor</option>
-		<option value="certificate">Certificate</option>
-	</select>
-	Year:
-	<select name="year">
-		{% for year in years %}
-			<option value="{{ year }}">{{ year }}</option>
-		{% endfor %}
-	</select>
-	
-	<br><br>
-	<input type="submit" value="Submit" />
-</form>
+<h4>Choose a degree to edit: </h4>
+<div>
+  {% for degree in degrees %}
+  <button>
+    <a href="/administrator/edit_degree/{{degree.id}}">{{degree.name}}</a>
+  </button>
+</div>
+{% endfor %}
 {% endblock rightcol %}

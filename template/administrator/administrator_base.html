@@ -1,12 +1,9 @@
-{% extends "student/student_base.html" %}
+{% extends "base.html" %}
 
 {% block title %}
 MyGradPath - Admin
 {% endblock %}
 
 {% block leftcol %}
-	{{ block.super }}
-	<h5 style="margin-top:25px;text-align:center;">Admin Tools</h5>
-	<a href="/administrator/open_degree/"><button>Create / Edit Degrees</button></a>
-	<a href="/administrator/create_admin/"><button>Create Admin</button></a>
+{{ block.super }}
 {% endblock leftcol %}

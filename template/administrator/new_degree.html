@@ -1,0 +1,52 @@
+{% extends "administrator/administrator_base.html" %}
+
+{% block rightcol %}
+<h3>Enter degree credentials</h3>
+<br>
+<form action="" method="POST">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>Degree Name:</td>
+      <td>
+	<input name="name" type="text" />
+      </td>
+    </tr>
+    <tr>
+      <td>College:</td>
+      <td>
+	<select name="college_id">
+	  {% for college in colleges %}
+	  <option value="{{college.id}}">{{college.name}}</option>
+	  {% endfor %}
+	</select>
+      </td>
+    </tr>
+    <tr>
+      <td>Degree Type:</td>
+      <td>
+	<select name="degree_type">
+	  {% for type in degree_types %}
+	  <option value="{{type.0}}">{{type.1}}</option>
+	  {% endfor %}
+	</select>
+      </td>
+    </tr>
+    <tr>
+      <td>Catalog Year:</td>
+      <td>
+	<select name="year">
+	  {% for year in years %}
+	  <option value="{{ year }}">{{ year }}</option>
+	  {% endfor %}
+	</select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+	<input type="submit" value="Submit" />
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}

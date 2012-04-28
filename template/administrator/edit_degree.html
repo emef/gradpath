@@ -6,17 +6,15 @@ Edit Degree
 
 {% block head %}
 <style>
-	.req {
-		margin-bottom:15px;	
-	}
-	.req > div {
-		margin-left:25px;	
-	}
+  .req {
+      margin-bottom:15px;	
+  }
+  .req > div {
+      margin-left:25px;	
+  }
 </style>
 {% endblock %}
 
 {% block rightcol %}
-<h3>{{ section }} - {{ type }} - {{ year }}</h3>
-<br>
-{{ html|safe }}
+Editing Degree: {{ degree.name }}
 {% endblock rightcol %}

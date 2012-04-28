@@ -35,6 +35,19 @@
       <!--Navigation-->
       <div id="nav">
 	{% block leftcol %}
+	<a href="/student/"><button>My Progress</button></a>
+	<a href="/student/degrees/list/"><button>View Degrees</button></a>
+	<a href="/student/courses/list/"><button>View Classes</button></a>
+	<a href="/student/degrees/manage/"><button>Manage Degrees</button></a>
+	<a href="/student/courses/manage/"><button>Manage Classes</button></a>
+	<a href="/student/transcript/import/"><button>Import Transcript</button></a>
+
+	{% if user.is_superuser %}
+	<h5 style="margin-top:25px;text-align:center;">Admin Tools</h5>
+	<a href="/administrator/new_degree/"><button>New Degree</button></a>
+	<a href="/administrator/open_degree/"><button>Update Existing Degree</button></a>
+	<a href="/administrator/create_admin/"><button>Create Admin</button></a>
+	{% endif %}
 	{% endblock %}
       </div>
       

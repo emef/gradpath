@@ -1,5 +1,5 @@
 from django.shortcuts import redirect
-from gradpath import render_to, get_profile
+from gradpath import render_to
 from gradpath.courses.models import Course
 from gradpath.profiles.models import Record
 from gradpath.degrees.evaluation.parser import parse_degree
@@ -17,17 +17,6 @@ def progress(request):
     for degree in profile.degrees.all():
         evaluator = parse_degree(degree)
         evaluator.eval(records)
-        for sub in evaluator.subreqs:
-            if not sub.passed:
-                if hasattr(sub, 'id'):
-                    print '  missing=', Course.shortcut(sub.id)
-                elif 'extra science' == getattr(sub, 'name', ''):
-                    print 'extra science: ', sub.creditcount, '/', sub.credits
-                    print '  min?', getattr(sub, 'min', 'NULL')
-                    print '  passed?', sub.passed
-                else:
-                    print sub.node_type, getattr(sub, 'name', '')
-                
         print evaluator.creditcount
         progress.append( {'degree': degree,
                           'passed': evaluator.passed } )
