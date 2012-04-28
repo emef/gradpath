@@ -22,8 +22,9 @@ def progress(request):
                 if hasattr(sub, 'id'):
                     print '  missing=', Course.shortcut(sub.id)
                 elif 'extra science' == getattr(sub, 'name', ''):
-                    print 'extra: ', sub.creditcount, '/', sub.credits
-                    print sub.passed
+                    print 'extra science: ', sub.creditcount, '/', sub.credits
+                    print '  min?', getattr(sub, 'min', 'NULL')
+                    print '  passed?', sub.passed
                 else:
                     print sub.node_type, getattr(sub, 'name', '')
                 

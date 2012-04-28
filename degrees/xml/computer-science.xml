@@ -96,7 +96,7 @@
     </group>
    
     
-    <group credits="22" name="extra science">
+    <group credits="22" min="0" name="extra science">
       <match id="233" />
       <match id="234" />
       <match id="235" />

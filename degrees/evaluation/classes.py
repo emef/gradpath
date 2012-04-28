@@ -33,6 +33,7 @@ class Container(Req):
         super(Container, self).__init__(attrs, node_type)
         self.subreqs = []
         self.ignore = []
+        self.subcount = 0
 
     def add(self, node):
         if isinstance(node, Match) and node.is_course:
@@ -64,9 +65,6 @@ class Group(Container):
         super(Group, self).__init__(attrs, NODE_GROUP)
 
     def eval(self, records, ignore):
-        # number of subreqs passed
-        subcount = 0
-        
         # join the ignore lists
         joined_ignore = ignore + self.ignore
 
@@ -85,21 +83,19 @@ class Group(Container):
                 del records[id]
                 
             if sub.passed:
-                subcount += 1
+                self.subcount += 1
                 
-        # return true if satisfied >= min
         minsubcount = int(getattr(self, 'min', len(self.subreqs)))
         mincreditcount = int(getattr(self, 'credits', 0))
-
+        
         # record credits for after-evaluation analysis
         # credits_earned <= mincredits if mincredits exists
         if mincreditcount > 0 and self.creditcount > mincreditcount:
             self.creditcount = mincreditcount
 
-        
-            
         # set passed flag
-        self.passed = subcount >= minsubcount and self.creditcount >= mincreditcount
+        self.passed = self.subcount >= minsubcount and \
+                      self.creditcount >= mincreditcount
         
         
 class Repeatable(Container):
