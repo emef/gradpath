@@ -1,0 +1,172 @@
+<xml>
+  <degree section="CSCI" type="MINOR" year="2011">
+    <group min="1">
+      <group>
+	<match id="547" />
+	<match id="548" />
+      </group>
+      <match id="549" />
+    </group>
+    <match id="552" />
+    <match id="553" />
+    <match id="554" />
+    <match id="555" />
+    <match id="557" />
+    <match id="560" />
+    <match id="561" />
+    <match id="564" />
+    <match id="566" />
+    <match id="567" />
+    <match id="570" />
+    <match id="574" />
+    <match id="575" />
+    <match id="580" />
+    <match id="587" />
+    <match id="588" />
+    <match id="589" />
+    <match id="2452" />
+    <match id="2453" />
+    <match id="2460" />
+    <match id="2476" />
+    <group credits="12" min="0" name="elective credits">
+      <match id="558" />
+      <match id="559" />
+      <match id="562" />
+      <match id="563" />
+      <match id="565" />
+      <match id="569" />
+      <match id="571" />
+      <match id="576" />
+      <match id="577" />
+      <match id="578" />
+      <match id="579" />
+      <match id="581" />
+      <match id="582" />
+      <match id="583" />
+      <match id="585" />
+      <match id="586" />
+      <match id="598" />
+      <match id="599" />
+      <match id="600" />
+      <match id="601" />
+      <match id="602" />
+      <match id="603" />
+      <match id="604" />
+      <match id="605" />
+      <match id="607" />
+      <match id="608" />
+      <match id="609" />
+      <match id="611" />
+      <match id="612" />
+      <match id="613" />
+      <match id="614" />
+      <match id="615" />
+      <match id="2541" />
+      <match id="2542" />
+      <match id="2543" />
+      <match id="2544" />
+    </group>
+    
+    <group min="1" name="science sequence">
+      <group name="chem">
+	<match id="233" />
+	<match id="234" />
+	<match id="235" />
+      </group>
+      <group name="biol">
+	<match id="321" />
+	<match id="322" />
+	<match id="323" />
+      </group>
+      <group name="geol">
+	<match id="1731" />
+	<match id="1733" />
+	<group min="1">
+	  <match id="1740" />
+	  <match id="1741" />
+	  <match id="1743" />
+	  <match id="1745" />
+	</group>
+      </group>
+      <group name="physics">
+	<match id="2901" />
+	<match id="2902" />
+	<match id="2903" />
+      </group>
+    </group>
+   
+    
+    <group credits="22" min="0" name="extra science">
+      <match id="233" />
+      <match id="234" />
+      <match id="235" />
+      <match id="321" />
+      <match id="322" />
+      <match id="323" />
+      <match id="1731" />
+      <match id="1733" />
+      <match id="1740" />
+      <match id="1741" />
+      <match id="1743" />
+      <match id="1745" />
+      <match id="2901" />
+      <match id="2902" />
+      <match id="2903" />
+      
+      <repeatable name="math credits">
+	<match section="65">
+	  <prereqs>
+	    <match id="2452" />
+	    <match id="2453" />
+	    <match id="2460" />
+	    <match id="2476" />
+	  </prereqs>
+	</match>
+      </repeatable>
+
+      <repeatable name="chem credits">
+	<match section="13">
+	  <prereqs>
+	    <match id="233" />
+	    <match id="234" />
+	    <match id="235" />
+	  </prereqs>
+	</match>
+      </repeatable>
+
+      <repeatable name="biol credits">
+	<match section="9">
+	  <prereqs>
+	    <match id="321" />
+	    <match id="322" />
+	    <match id="323" />
+	  </prereqs>
+	</match>
+      </repeatable>
+
+      <repeatable name="geol credits">
+	<match section="40">
+	  <prereqs>
+	    <match id="1731" />
+	    <match id="1733" />
+	    <match id="1740" />
+	    <match id="1741" />
+	    <match id="1743" />
+	    <match id="1745" />
+	  </prereqs>
+	</match>
+      </repeatable>
+
+      <repeatable name="phys credits">
+	<match section="76">
+	  <prereqs>
+	    <match id="2901" />
+	    <match id="2902" />
+	    <match id="2903" />
+	  </prereqs>
+	</match>
+      </repeatable>
+      
+    </group>
+  </degree>
+</xml>
