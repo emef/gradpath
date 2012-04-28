@@ -18,7 +18,7 @@ class Degree(models.Model):
     college = models.ForeignKey(College)
     degree_type = models.IntegerField(choices = DEGREE_TYPES)
 
-    def xml(seLf):
+    def xml(self):
         return '%s/%s.xml' % (settings.XML_PATH, self.name.replace(' ', '-').lower())
     
     def __unicode__(self):
