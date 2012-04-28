@@ -11,6 +11,7 @@ Create Degree
 <h3>Enter degree credentials</h3>
 <br>
 <form action="/administrator/edit_degree/" method="POST">
+  {% csrf_token %}
 	Section: <input name="section"></input>
 	Type:
 	<select name="type">
