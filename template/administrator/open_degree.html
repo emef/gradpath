@@ -9,8 +9,8 @@ Create Degree
 
 {% block rightcol %}
 <h4>Choose a degree to edit: </h4>
+{% for degree in degrees %}
 <div>
-  {% for degree in degrees %}
   <button>
     <a href="/administrator/edit_degree/{{degree.id}}">{{degree.name}}</a>
   </button>

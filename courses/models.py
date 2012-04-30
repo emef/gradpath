@@ -7,6 +7,12 @@ class Section(models.Model):
     def __unicode__(self):
         return 'Section<%s>' % self.name
 
+    def to_json(self):
+        return {
+            'name': self.name,
+            'abbreviation': self.abbreviation
+        }
+
 class Course(models.Model):
     title = models.CharField(max_length = 200)
     section = models.ForeignKey(Section)
@@ -43,4 +49,15 @@ class Course(models.Model):
         
     def has_prereq(self, course_id):
         return course_id in self.prereq_chain()
+
+    def to_json(self):
+        return {
+            'title': self.title,
+            'section': self.section.to_json(),
+            'number': self.number,
+            'description': self.description,
+            'prereqs': [pr.to_json() for pr in self.prereq_chain()],
+            'credits': self.credits,
+            'notes': self.notes
+        }
                 
