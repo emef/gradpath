@@ -45,6 +45,9 @@ def login_user(request):
     return json_response(resp)
 
 
+# urls.py
+url(r'^get_courses/(?P<section_id>\d+)', 'get_courses')
+
 def get_courses(request, section_id):
     courses = Course.objects.filter(section__id=section_id);
     return json_response([c.to_json() for c in courses])
