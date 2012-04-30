@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.http import HttpResponse
-from gradpath import render_to
+from gradpath import render_to, json_response
 from gradpath.courses.models import Course, Section
 from gradpath.profiles.models import Record
 from gradpath.degrees.evaluation.parser import parse_degree
@@ -68,9 +68,8 @@ def courses_list(request):
     })
     
 def courses_in_section(request, id):
-	return render_to(request, 'student/courses/in_section.html', {
-		'courses': Course.objects.filter(section=int(id))
-	})
+    courses = Course.objects.filter(section=int(id))
+    return json_response([c.to_json() for c in courses.all()])
 
 ######################################################################
 # DEGREES VIEWS

@@ -56,7 +56,7 @@ class Course(models.Model):
             'section': self.section.to_json(),
             'number': self.number,
             'description': self.description,
-            'prereqs': [pr.to_json() for pr in self.prereq_chain()],
+#            'prereqs': [pr.to_json() for pr in self.prereqs.all()],
             'credits': self.credits,
             'notes': self.notes
         }

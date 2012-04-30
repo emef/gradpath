@@ -8,23 +8,17 @@ ul {
 	list-style-type:none;
 }
 </style>
-<script>
-$(document).ready(function() {
-	$('li').click(function() {
-		id = $(this).attr('id');
-		$.get("../in_section/" + id, function(response) {
-			alert(response);
-	  	});
-	});
-});
-</script>
+<script type="text/javascript" src="/js/courses_list.js"></script>
 {% endblock %}
 
 {% block rightcol %}
 
 <ul>
 {% for section in sections %}
-	<li id="{{ section.id }}">{{ section.name }}</li>
+<li id="{{ section.id }}">
+  <span>{{ section.name }}</span>
+  <div class="courses"></div>
+</li>
 {% endfor %}
 </ul>
 

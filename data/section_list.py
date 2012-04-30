@@ -1,6 +1,5 @@
 SECTIONS = """A/HI - Art History
 ACCT - Accounting
-AHE - Adult and Higher Ed OBSOLETE
 AMST - American Cultural Studies
 ANTH - Anthropology
 ARAB - Arabic
@@ -23,7 +22,6 @@ EAST - East Asian Studies
 ECE - Early Childhood Education
 ECON - Economics
 EDAD - Educational Administration
-EDF - Educational Foundatio OBSOLETE
 EDUC - Education
 EGEO - Geography
 ELED - Elementary Education
@@ -36,7 +34,6 @@ EXT - Extended Education
 FAIR - Fairhaven
 FIN - Finance
 FREN - French
-FRST - Foreign Studies OBSOLETE
 GEOL - Geology
 GERM - German
 GREK - Greek
@@ -87,9 +84,7 @@ SMNR - Seminar
 SOC - Sociology
 SPAN - Spanish
 SPED - Special Education
-SSED - Social Studies Ed OBSOLETE
 TESL - Teaching Eng/Second Language
 THTR - Theatre Arts
-UNIV - University OBSOLETE
 WMNS - Women Studies
 """
