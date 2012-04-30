@@ -1,0 +1,31 @@
+{% extends "student/student_base.html" %}
+
+{% block title %}Add Classes{% endblock %}
+
+{% block head %}
+<style>
+ul {
+	list-style-type:none;
+}
+</style>
+<script>
+$(document).ready(function() {
+	$('li').click(function() {
+		id = $(this).attr('id');
+		$.get("../in_section/" + id, function(response) {
+			alert(response);
+	  	});
+	});
+});
+</script>
+{% endblock %}
+
+{% block rightcol %}
+
+<ul>
+{% for section in sections %}
+	<li id="{{ section.id }}">{{ section.name }}</li>
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
+from django.http import HttpResponse
 from gradpath import render_to
-from gradpath.courses.models import Course
+from gradpath.courses.models import Course, Section
 from gradpath.profiles.models import Record
 from gradpath.degrees.evaluation.parser import parse_degree
 from decimal import Decimal
@@ -62,7 +63,14 @@ def courses_remove(request):
 
 # shows organized view of all courses, allows you to view/add them
 def courses_list(request):
-    return render_to(request, 'student/courses/list.html')
+    return render_to(request, 'student/courses/list.html', {
+    	'sections': Section.objects.all()
+    })
+    
+def courses_in_section(request, id):
+	return render_to(request, 'student/courses/in_section.html', {
+		'courses': Course.objects.filter(section=int(id))
+	})
 
 ######################################################################
 # DEGREES VIEWS
