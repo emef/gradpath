@@ -52,6 +52,7 @@ class Course(models.Model):
 
     def to_json(self):
         return {
+            'id': self.id,
             'title': self.title,
             'section': self.section.to_json(),
             'number': self.number,
