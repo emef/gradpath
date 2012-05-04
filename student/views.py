@@ -71,6 +71,30 @@ def courses_in_section(request, id):
     courses = Course.objects.filter(section=int(id))
     return json_response([c.to_json() for c in courses.all()])
 
+def courses_add(request, id):
+    if request.method == 'GET':
+        return render_to(request, 'student/courses/getgradedate.html', {
+                'course': Course.objects.get(id=int(id))
+            })
+    elif request.method == 'POST':
+        grade = request.POST.get('grade', None)
+        date = request.POST.get('date', None)
+        date = datetime.date(int(request.POST.get('year')), 
+                             int(request.POST.get('month')), 
+                             int(request.POST.get('day')))
+        profile = request.user.get_profile()
+        course = Course.objects.get(id=id)
+        
+        try:
+            print str(course) + str(date)
+            Record.objects.get(profile=profile, course=course, grade=grade, date=date)
+        except Record.DoesNotExist:
+            Record.objects.create(profile=profile, course=course, grade=grade, date=date)
+        except ValueError:
+            pass
+
+    return redirect('/student/courses/manage/')
+
 ######################################################################
 # DEGREES VIEWS
 

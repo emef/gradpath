@@ -4,6 +4,7 @@ $(document).ready(function() {
     var id = $(this).attr('id');
     $.get("../in_section/" + id, function(course_list) {
       var container = parent.find("div.courses");
+      container.empty();
       for(var i=0, j=course_list.length; i<j; i++) {
         var course = course_list[i];
         var node = $("<div />");

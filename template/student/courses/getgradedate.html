@@ -1,0 +1,66 @@
+{% extends "student/student_base.html" %}
+
+{% block title %}Add Classes{% endblock %}
+
+{% block head %}
+<style>
+	fieldset {
+		padding:10px;
+	}
+	select {
+		margin-bottom:10px;
+	}
+</style>
+{% endblock %}
+
+{% block rightcol %}
+<h3>Adding <i>{{ course.title|title }}</i> to records:</h3>
+<form action='' method='POST'>
+	<fieldset>
+		<legend>Credentials</legend>
+		<label>Grade:
+			<select name="grade">
+				<option>A</option>
+				<option>A-</option>
+				<option>B+</option>
+				<option>B</option>
+				<option>B-</option>
+				<option>C+</option>
+				<option>C</option>
+				<option>C-</option>
+				<option>D+</option>
+				<option>D</option>
+				<option>D-</option>
+				<option>F</option>
+				<option>S</option>
+				<option>U</option>
+			</select>
+		</label>
+		<br>
+		<label>Date:
+				<script>
+      				//Month
+      				document.write("<select name='month'>")
+      				for(i = 1; i <= 12; i++) {
+      					document.write("<option>" + i + "</option>")
+      				}
+      				document.write("</select> ")
+      				//Day
+      				document.write("<select name='day'>")
+      				for(i = 1; i <= 31; i++) {
+      					document.write("<option>" + i + "</option>")
+      				}
+      				document.write("</select> ")
+      				//Year
+					document.write("<select name='year'>")
+      				for(i = 2000; i <= 2015; i++) {
+      					document.write("<option>" + i + "</option>")
+      				}
+      				document.write("</select>")
+    			</script>
+		</label>
+		<br>
+	</fieldset>
+	<input type="submit" value="Submit" />
+</form>
+{% endblock %}
