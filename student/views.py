@@ -2,7 +2,8 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from gradpath import render_to, json_response
 from gradpath.courses.models import Course, Section
-from gradpath.profiles.models import Record
+from gradpath.degrees.models import Degree
+from gradpath.profiles.models import Record, UserProfile
 from gradpath.degrees.evaluation.parser import parse_degree
 from decimal import Decimal
 import re, datetime
@@ -12,16 +13,20 @@ import re, datetime
 # INFORMATION VIEWS
 
 def progress(request):
-    profile = request.user.get_profile()
-    progress = []
-    records = dict([(r.course.id, r) for r in profile.record_set.all()])
-    for degree in profile.degrees.all():
-        evaluator = parse_degree(degree)
-        evaluator.eval(records)
-        print evaluator.creditcount
-        progress.append( {'degree': degree,
-                          'passed': evaluator.passed } )
-    return render_to(request, 'student/progress.html', { 'progress': progress })
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+        progress = []
+        records = dict([(r.course.id, r) for r in profile.record_set.all()])
+        for degree in profile.degrees.all():
+            evaluator = parse_degree(degree)
+            evaluator.eval(records)
+            print evaluator.creditcount
+            progress.append( {'degree': degree,
+                              'passed': evaluator.passed } )
+        return render_to(request, 'student/progress.html', { 'progress': progress })
+    else:
+        # need to add a "please log in" message
+        return render_to(request, 'student/student_base.html')
 
 ######################################################################
 # COURSE VIEWS
@@ -43,28 +48,27 @@ GPA_MAP = {
 
 # add/remove classes a student has selected
 def courses_manage(request):
-    profile = request.user.get_profile()
-    if profile:
-        records = profile.record_set.all()
-	data = { 'records': profile.record_set.all()  }
-	return render_to(request, 'student/courses/manage.html', data)
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+        if profile:
+            records = profile.record_set.all()
+            data = { 'records': profile.record_set.all()  }
+        return render_to(request, 'student/courses/manage.html', data)
     else:
-        # NOT IMPLEMENNTED
-        pass
+        # redirect to main
+        return redirect('/student/')
         
-    return render_to(request, 'student/courses/manage.html')
-
 #Helper function to remove course from the db
 def courses_remove(request):
     profile = request.user.get_profile()
-    course = Course.objects.get(id=int(request.GET['id']))
+    course = User.objects.get(id=int(request.GET['id']))
     Record.objects.filter(profile=profile, course=course).delete()
     return redirect('/student/courses/manage/')
 
 # shows organized view of all courses, allows you to view/add them
 def courses_list(request):
     return render_to(request, 'student/courses/list.html', {
-    	'sections': Section.objects.all()
+        'sections': Section.objects.all()
     })
     
 def courses_in_section(request, id):
@@ -99,7 +103,20 @@ def courses_add(request, id):
 # DEGREES VIEWS
 
 def degrees_manage(request):
-    return render_to(request, 'student/degrees/manage.html')
+    if request.user.is_authenticated():
+        user = request.user.get_profile()
+        degrees = UserProfile.objects.get(id=user.id).degrees.all()
+        degree_dict = {'degrees': degrees}
+        return render_to(request, 'student/degrees/manage.html', degree_dict)
+    else:
+        # redirect to main
+        return redirect('/student/')
+
+def degrees_remove(request):
+    user = request.user.get_profile()
+    degree = Degree.objects.get(id=int(request.GET['id']))
+    UserProfile.objects.get(id=user.id).degrees.remove(degree)
+    return redirect('/student/degrees/manage/')
 
 def degrees_list(request):
     return render_to(request, 'student/degrees/list.html')
@@ -115,34 +132,33 @@ def transcript_import(request):
     # POST REQUEST
     if user_input:
         courses = []
-	dne = []
-	multiple = []
-	
-	for match in re.finditer(TRANSCRIPT_RE, user_input):
+        dne = []
+        multiple = []
+    
+        for match in re.finditer(TRANSCRIPT_RE, user_input):
             section, number = (str(match.group(1)), int(match.group(2)))
-                        
-	    try:
-                course = Course.objects.get(section__abbreviation=section, 
-                                                            number=number)
-		grade = match.group(6)
-		date = datetime.date(int(match.group(11)) + 2000, 
-				     int(match.group(9)), 
-				     int(match.group(10)))
-		courses.append( (course, grade, str(date)) )
-                                
-	    except Course.DoesNotExist:
-                dne.append( (section, number) )
-                        
-	    except Course.MultipleObjectsReturned:
-                # email administrators about the error
-                # don't add any, but tell the student something broke
-                multiple.append( (section, number) )
-                        
-	data = { 'courses': courses,
-		 'dne': dne,
-		 'multiple': multiple }
-                
-	return render_to(request, 'student/transcript/verify.html', data)
+                            
+            try:
+                course = Course.objects.get(section__abbreviation=section,number=number)
+                grade = match.group(6)
+                date = datetime.date(int(match.group(11)) + 2000, 
+                                     int(match.group(9)), 
+                                     int(match.group(10)))
+                courses.append( (course, grade, str(date)) )
+                                    
+            except Course.DoesNotExist:
+                    dne.append( (section, number) )
+                            
+            except Course.MultipleObjectsReturned:
+                    # email administrators about the error
+                    # don't add any, but tell the student something broke
+                    multiple.append( (section, number) )
+                            
+        data = { 'courses': courses,
+                 'dne': dne,
+                 'multiple': multiple }
+                    
+        return render_to(request, 'student/transcript/verify.html', data)
         
     # GET REQUEST
     else:
@@ -156,14 +172,14 @@ def transcript_submit(request):
     for key,val in request.POST.items():
         try:
             id = int(key.split(':')[0])
-	    grade = key.split(':')[1]
-	    dateTup = key.split(':')[2].split('-')
-	    date = datetime.date(int(dateTup[0]), int(dateTup[1]), int(dateTup[2]))
-	    course = Course.objects.get(id=id)
-	    try:
+            grade = key.split(':')[1]
+            dateTup = key.split(':')[2].split('-')
+            date = datetime.date(int(dateTup[0]), int(dateTup[1]), int(dateTup[2]))
+            course = Course.objects.get(id=id)
+            try:
                 print str(course) + str(date)
-		Record.objects.get(profile=profile, course=course, grade=grade, date=date)
-	    except Record.DoesNotExist:
+                Record.objects.get(profile=profile, course=course, grade=grade, date=date)
+            except Record.DoesNotExist:
                 Record.objects.create(profile=profile, course=course, grade=grade, date=date)
         except ValueError:
             pass
