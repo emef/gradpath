@@ -24,3 +24,11 @@ class Degree(models.Model):
     
     def __unicode__(self):
         return 'Degree<%s>' % self.name
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'degree_type': self.degree_type,
+            'year': self.year
+        }

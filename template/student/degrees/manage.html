@@ -16,7 +16,7 @@
 	<table width="100%">
 	{% for d in degrees %}
 		<tr>
-			<td width="55%">{{ d.name }}</td>
+			<td width="55%">{{ d.name|title }}</td>
 			<td width="35%">{{ d.college.name }}</td>
 			<td width="7%" style="text-align:center">{{ d.year }}</td>
 			<td width="3%"style="text-align:center;width:30px;"><a href="/student/degrees/remove/?id={{ d.id }}"><img src="/img/remove_icon.png" /></a></td>

@@ -2,7 +2,7 @@ from django.shortcuts import redirect
 from django.http import HttpResponse
 from gradpath import render_to, json_response
 from gradpath.courses.models import Course, Section
-from gradpath.degrees.models import Degree
+from gradpath.degrees.models import Degree, College
 from gradpath.profiles.models import Record, UserProfile
 from gradpath.degrees.evaluation.parser import parse_degree
 from decimal import Decimal
@@ -61,7 +61,7 @@ def courses_manage(request):
 #Helper function to remove course from the db
 def courses_remove(request):
     profile = request.user.get_profile()
-    course = User.objects.get(id=int(request.GET['id']))
+    course = Course.objects.get(id=int(request.GET['id']))
     Record.objects.filter(profile=profile, course=course).delete()
     return redirect('/student/courses/manage/')
 
@@ -90,7 +90,6 @@ def courses_add(request, id):
         course = Course.objects.get(id=id)
         
         try:
-            print str(course) + str(date)
             Record.objects.get(profile=profile, course=course, grade=grade, date=date)
         except Record.DoesNotExist:
             Record.objects.create(profile=profile, course=course, grade=grade, date=date)
@@ -119,7 +118,22 @@ def degrees_remove(request):
     return redirect('/student/degrees/manage/')
 
 def degrees_list(request):
-    return render_to(request, 'student/degrees/list.html')
+    return render_to(request, 'student/degrees/list.html', {
+            'colleges': College.objects.all(),
+    })
+
+def degrees_in_college(request, id):
+    degrees = Degree.objects.filter(college=int(id))
+    return json_response([d.to_json() for d in degrees.all()])
+
+def degrees_add(request, id):
+    if request.user.is_authenticated():
+        user = request.user.get_profile()
+        degree = Degree.objects.get(id=id)
+        UserProfile.objects.get(id=user.id).degrees.add(degree)
+        return redirect('/student/degrees/manage/')
+    else:
+        return redirect('/student/')
 
 ######################################################################
 # TRANSCRIPT VIEWS
