@@ -1,4 +1,4 @@
-from gradpath.courses.models import Course
+from gradpath.courses.models import Course, Section
 
 NODE_DEGREE = 'degree'
 NODE_GROUP = 'group'
@@ -28,26 +28,57 @@ class Req(object):
         self.coursecount = 0
         self.consumed = set()
 
+
+def get_int_or_none(obj, key):
+    return int(obj[key]) if key in obj else None
+
 class Container(Req):
     def __init__(self, attrs, node_type):
         super(Container, self).__init__(attrs, node_type)
-        self.subreqs = []
         self.ignore = []
         self.subcount = 0
+        self.minsubcount = get_int_or_none(self.__dict__, 'minsub')
+        self.mincreditcount = get_int_or_none(self.__dict__, 'mincredits')
+        self.maxcreditcount = get_int_or_none(self.__dict__, 'maxcredits')
+
+        self._subreqs = []
+        self._courses = []
+        self._matches = []
+        self._containers = []
+    
+    @property
+    def subreqs(self):
+        return self._subreqs
+        #return self._courses + self._matches + self._containers
 
     def add(self, node):
-        if isinstance(node, Match) and node.is_course:
-            self.subreqs.insert(0, node)
-        else:
-            self.subreqs.append(node)
-
+        self._subreqs.append(node)
+        #if isinstance(node, Match):
+        #    if node.is_course:
+        #        self._courses.append(node)
+        #    else:
+        #        self._matches.append(node)
+        #else:
+        #    self._containers.append(node)
+            
     def pprint(self, spaces=''):
         print spaces, '<', self.node_type, '>'
         for r in self.subreqs: r.pprint(spaces + '  ')
 
+    def doc(self, text=None):
+        return {
+            'text': text,
+            'children': [sub.doc() for sub in self.subreqs if not sub.passed]
+        }
+        
+
 class Degree(Container):
     def __init__(self, attrs):
         super(Degree, self).__init__(attrs, NODE_DEGREE)
+        
+    def doc(self, text=None):
+        text = text if text else 'Degree requires:'
+        return super(Degree, self).doc(text)
         
     def eval(self, records, ignore=None):
         if ignore == None:
@@ -64,6 +95,26 @@ class Group(Container):
     def __init__(self, attrs):
         super(Group, self).__init__(attrs, NODE_GROUP)
 
+    def doc(self):
+        sub_clause = None
+        credit_clause = None
+        
+        if (self.minsubcount is not None) and self.subcount < self.minsubcount:
+            sub_clause = self.minsubcount - self.subcount
+        if (self.mincreditcount is not None) and self.creditcount < self.mincreditcount:
+            credit_clause = '{0} credits'.format(self.mincreditcount - self.creditcount)
+            
+        if sub_clause and credit_clause:
+            text = '{0} of the following with {1} credits:'.format(sub_clause, credit_clause)
+        elif sub_clause:
+            text = '{0} of the following:'.format(sub_clause)
+        elif credit_clause:
+            text = '{0} credits from:'.format(credit_clause)
+        else:
+            text = 'All of:'
+            
+        return super(Group, self).doc(text)
+        
     def eval(self, records, ignore):
         # join the ignore lists
         joined_ignore = ignore + self.ignore
@@ -85,24 +136,40 @@ class Group(Container):
             if sub.passed:
                 self.subcount += 1
                 
-        minsubcount = int(getattr(self, 'min', len(self.subreqs)))
-        mincreditcount = int(getattr(self, 'credits', 0))
         
         # record credits for after-evaluation analysis
         # credits_earned <= mincredits if mincredits exists
-        if mincreditcount > 0 and self.creditcount > mincreditcount:
-            self.creditcount = mincreditcount
+        if self.mincreditcount > 0 and self.creditcount > self.mincreditcount:
+            self.creditcount = self.mincreditcount
 
         # set passed flag
-        self.passed = self.subcount >= minsubcount and \
-                      self.creditcount >= mincreditcount
+        self.passed = True
+        if self.minsubcount is not None:
+            if self.subcount < self.minsubcount:
+                self.passed = False
+        elif self.subcount < len(self.subreqs):
+            try:
+                print self.name, self.subcount, len(self.subreqs)
+            except: pass
+            self.passed = False
+            
+        if (self.mincreditcount is not None) and self.creditcount < self.mincreditcount:
+            self.passed = False
+
+    def __str__(self):
+        name = getattr(self, 'name', '')
+        return '<group {0} />'.format(name)
         
         
 class Repeatable(Container):
     def __init__(self, attrs):
         super(Repeatable, self).__init__(attrs, NODE_REPEATABLE)
-        self.passed = True
+        self.passed = False
 
+    def doc(self):
+        text = 'Up to {0} credits of:' if self.maxcreditcount else 'Any of:'
+        return super(Repeatable, self).doc(text)
+        
     def eval(self, records, ignore):
         # copy records so we can modify
         records = records.copy()
@@ -118,11 +185,16 @@ class Repeatable(Container):
                 self.creditcount += sub.creditcount
                 self.coursecount += sub.coursecount
 
+                if self.maxcreditcount and self.creditcount > self.maxcreditcount:
+                    self.creditcount = self.maxcreditcount
+                
                 for id in sub.consumed:
                     self.consumed.add(id)
                     del records[id]
                 
                 valid = sub.passed
+                if self.maxcreditcount:
+                    valid = valid and self.creditcount < self.maxcreditcount
                 sub.reset()
         
 
@@ -131,8 +203,36 @@ class Match(Req):
         super(Match, self).__init__(attrs, NODE_MATCH)
         self.prereqs = set()
 
+    def __str__(self):
+        valid = ['id', 'section', 'number', 'credits']
+        keys = (key for key in self.__dict__ if key in valid)
+        attrs = ' '.join('{0}={1}'.format(key, self.__dict__[key]) for key in keys)
+        return '<match {0} />'.format(attrs)
+        
     def pprint(self, spaces=''):
         print '%s<match>' % spaces
+
+    def doc(self):
+        if hasattr(self, 'id'):
+            return {'text': Course.shortcut(self.id).full_str(), 'children': None}
+        else:
+            text = 'Any courses '
+            if hasattr(self, 'section'):
+                text += 'from section {0} '.format(Section.shortcut(self.section).name)
+            if hasattr(self, 'number'):
+                text += 'with course number {0}'.format(self.number)
+            text += ':'
+            
+            prereq_doc = None
+            if len(self.prereqs):
+                children = []
+                for cstr in (Course.shortcut(id).full_str() for id in self.prereqs):
+                    children.append({'text': cstr, 'children': None})
+                prereq_doc = [{'text': 'With pre-requisites:',
+                              'children': children}]
+                    
+            return {'text': text, 'children': prereq_doc }
+                    
         
     @property
     def is_course(self):

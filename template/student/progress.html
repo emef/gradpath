@@ -1,7 +1,15 @@
 {% extends "student/student_base.html" %}
+{% load degree_tags %}
 
 {% block title %}
 MyGradPath
+{% endblock %}
+
+{% block head %}
+{{ block.super }}
+<style>
+  .eval-compound > div + div { padding-left: 25px }
+</style>
 {% endblock %}
 
 {% block rightcol %}
@@ -9,7 +17,7 @@ MyGradPath
 {% for item in progress %}
 <div>
   <h3>{{ item.degree.name }}</h3>
-  <div>Passed: {{ item.passed }}</div>
+  {{ item.evaluator|degree_doc }}
 </div>
 {% endfor %}
 
