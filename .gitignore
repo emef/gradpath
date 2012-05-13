@@ -1,5 +1,4 @@
 *.pyc
 *~
-settings.py
-settings.py
 gradpath.db
+env

@@ -13,6 +13,13 @@ class Section(models.Model):
             'abbreviation': self.abbreviation
         }
 
+    @staticmethod
+    def shortcut(arg):
+        if isinstance(arg, int):
+            return Section.objects.get(pk=arg)
+        elif isinstance(arg, str):
+            return Section.objects.get(abbreviation=arg)
+
 class Course(models.Model):
     title = models.CharField(max_length = 200)
     section = models.ForeignKey(Section)
@@ -24,6 +31,9 @@ class Course(models.Model):
 
     def __unicode__(self):
         return 'Course<%s %d>' % (self.section.abbreviation, self.number)
+
+    def full_str(self):
+        return '{0} {1}: {2}'.format(self.section.abbreviation, self.number, self.title)
 
     @staticmethod
     def shortcut(*args):

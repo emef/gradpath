@@ -16,13 +16,12 @@ def progress(request):
     if request.user.is_authenticated():
         profile = request.user.get_profile()
         progress = []
-        records = dict([(r.course.id, r) for r in profile.record_set.all()])
+        records = dict([(r.course.id, r) for r in profile.records.all()])
         for degree in profile.degrees.all():
             evaluator = parse_degree(degree)
             evaluator.eval(records)
-            print evaluator.creditcount
             progress.append( {'degree': degree,
-                              'passed': evaluator.passed } )
+                              'evaluator': evaluator} )
         return render_to(request, 'student/progress.html', { 'progress': progress })
     else:
         # need to add a "please log in" message
@@ -51,8 +50,7 @@ def courses_manage(request):
     if request.user.is_authenticated():
         profile = request.user.get_profile()
         if profile:
-            records = profile.record_set.all()
-            data = { 'records': profile.record_set.all()  }
+            data = { 'records': profile.records.all()  }
         return render_to(request, 'student/courses/manage.html', data)
     else:
         # redirect to main

@@ -12,7 +12,7 @@ class UserProfile(models.Model):
         return 'Profile<%s>' % self.user.username
 
 class Record(models.Model):
-    profile = models.ForeignKey(UserProfile)
+    profile = models.ForeignKey(UserProfile, related_name='records')
     course = models.ForeignKey(Course)
     grade = models.CharField(max_length=3)
     date = models.DateField(auto_now=False, auto_now_add=False)
