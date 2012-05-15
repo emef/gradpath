@@ -20,6 +20,7 @@ def progress(request):
         for degree in profile.degrees.all():
             evaluator = parse_degree(degree)
             evaluator.eval(records)
+            print evaluator.creditcount, '/', evaluator.credit_worth()
             progress.append( {'degree': degree,
                               'evaluator': evaluator} )
         return render_to(request, 'student/progress.html', { 'progress': progress })

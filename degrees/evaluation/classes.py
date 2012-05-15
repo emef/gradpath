@@ -21,7 +21,7 @@ class Req(object):
         
     def __str__(self):
         return '<%s />' % self.node_type
-
+    
     def reset(self):
         self.passed = False
         self.creditcount = 0
@@ -40,26 +40,20 @@ class Container(Req):
         self.minsubcount = get_int_or_none(self.__dict__, 'minsub')
         self.mincreditcount = get_int_or_none(self.__dict__, 'mincredits')
         self.maxcreditcount = get_int_or_none(self.__dict__, 'maxcredits')
-
-        self._subreqs = []
-        self._courses = []
-        self._matches = []
-        self._containers = []
-    
-    @property
-    def subreqs(self):
-        return self._subreqs
-        #return self._courses + self._matches + self._containers
-
+        self.subreqs = []
+        
     def add(self, node):
-        self._subreqs.append(node)
-        #if isinstance(node, Match):
-        #    if node.is_course:
-        #        self._courses.append(node)
-        #    else:
-        #        self._matches.append(node)
-        #else:
-        #    self._containers.append(node)
+        self.subreqs.append(node)
+
+    def credit_worth(self):
+        if self.mincreditcount != None:
+            return self.mincreditcount
+        else:
+            worths = sorted([sub.credit_worth() for sub in self.subreqs])
+            if self.minsubcount:
+                worths = worths[:self.minsubcount]
+                
+            return sum(worths)
             
     def pprint(self, spaces=''):
         print spaces, '<', self.node_type, '>'
@@ -169,6 +163,13 @@ class Repeatable(Container):
     def doc(self):
         text = 'Up to {0} credits of:' if self.maxcreditcount else 'Any of:'
         return super(Repeatable, self).doc(text)
+
+    def credit_worth(self):
+        if self.maxcreditcount:
+            return self.maxcreditcount
+        else:
+            # unknown
+            return 0
         
     def eval(self, records, ignore):
         # copy records so we can modify
@@ -204,13 +205,20 @@ class Match(Req):
         self.prereqs = set()
 
     def __str__(self):
-        valid = ['id', 'section', 'number', 'credits']
+        valid = ['id', 'section', 'number']
         keys = (key for key in self.__dict__ if key in valid)
         attrs = ' '.join('{0}={1}'.format(key, self.__dict__[key]) for key in keys)
         return '<match {0} />'.format(attrs)
         
     def pprint(self, spaces=''):
         print '%s<match>' % spaces
+
+    def credit_worth(self):
+        if self.is_course:
+            return Course.shortcut(self.id).credits
+        else:
+            # best guess?
+            return 3
 
     def doc(self):
         if hasattr(self, 'id'):
