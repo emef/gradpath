@@ -1,21 +1,14 @@
-# Full filesystem path to the project.
-import os
-PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_DIR = '/home/conner/Dropbox/gradpath'
+XML_PATH = '%s/degrees/xml' % PROJECT_DIR
+
+REQUIRE_ACTIVATION = False
+AUTH_PROFILE_MODULE = 'profiles.UserProfile'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-# user registration
-REQUIRE_ACTIVATION = False
-
-# degree xml path
-XML_PATH = '%s/degrees/xml' % PROJECT_DIR
-
-# links additional data to the User class
-AUTH_PROFILE_MODULE = 'profiles.UserProfile'
-
 ADMINS = (
-    ('Matt Forbes', 'm@ttforbes.com'),
+    ('Conner Reeves', 'conner@connerscodes.com'),
 )
 
 MANAGERS = ADMINS
@@ -76,10 +69,11 @@ STATIC_URL = '/static/'
 # URL prefix for admin static files -- CSS, JavaScript and images.
 # Make sure to use a trailing slash.
 # Examples: "http://foo.com/static/admin/", "/static/admin/".
-# ADMIN_MEDIA_PREFIX = '/static/admin/'
+ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
+    '%s/staticfiles' % PROJECT_DIR,
 )
 
 # List of finder classes that know how to find static files in
@@ -103,7 +97,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -126,13 +120,13 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'administrator',
+    'adviser',
     'courses',
     'degrees',
     'profiles',
     'student',
-    'administrator',
-    'adviser',
-)
+    )
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -17,13 +17,40 @@ def progress(request):
         profile = request.user.get_profile()
         progress = []
         records = dict([(r.course.id, r) for r in profile.records.all()])
+        
+        #Begin graph data organization
+        credit_records = [(r.date, r.course.credits) for r in profile.records.all()]
+        credit_records.sort()
+    
+        credit_count = 0
+        axis = 15
+        graph_entries = []
+        if credit_records:
+            for entry in credit_records:
+                credit_count += entry[1]
+                if credit_count >= axis:
+                    graph_entries.append([entry[0], credit_count])
+                    axis += 15
+            if graph_entries[-1][0] != credit_records[-1][0]:
+                graph_entries.append([credit_records[-1][0], credit_count])
+        else:
+            #Ghetto fix to prevent graph API error when there are zero entries
+            graph_entries.append([0,0])
+        #End graph data organization
+
         for degree in profile.degrees.all():
             evaluator = parse_degree(degree)
             evaluator.eval(records)
-            print evaluator.creditcount, '/', evaluator.credit_worth()
-            progress.append( {'degree': degree,
-                              'evaluator': evaluator} )
-        return render_to(request, 'student/progress.html', { 'progress': progress })
+            completion = (float(evaluator.creditcount) / float(evaluator.credit_worth())) * 100
+            progress.append({
+                                'degree': degree,
+                                'evaluator': evaluator,
+                                'completion': completion
+                            })
+        return render_to(request, 'student/progress.html', {
+                'progress': progress,
+                'graph_entries': graph_entries
+            })
     else:
         # need to add a "please log in" message
         return render_to(request, 'student/student_base.html')

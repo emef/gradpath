@@ -7,16 +7,77 @@ MyGradPath
 
 {% block head %}
 {{ block.super }}
+<!--Graph Setup-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript">
+	google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+    	var data = google.visualization.arrayToDataTable([
+        	['Date', 'Credits'],
+        	{% for item in graph_entries %}
+				['{{ item.0 }}', {{ item.1 }}],
+			{% endfor %}
+      	]);
+
+      	var options = {
+        	legend: {position: 'none'}
+      	};
+
+      	var chart = new google.visualization.LineChart(document.getElementById('graph'));
+      	chart.draw(data, options);
+    }
+</script>
+
+<script>
+	$(function() {
+	      $('.progressbar').each(function() {
+	            var value = parseInt($(this).text());
+	            $(this).empty().progressbar({
+	            	value: value
+	            }).prepend('<span style="float:left;margin-left:50%;line-height:25px">' + value + '%</span>');
+	      });
+	});
+</script>
+
 <style>
   .eval-compound > div + div { padding-left: 25px }
+  #graph {
+  	margin: 15px auto;
+  	width:750px;
+  	height:300px;
+  	-moz-box-shadow: 0 0 15px #000;
+	-webkit-box-shadow: 0 0 15px #000;
+	box-shadow: 0 0 15px #000;
+  }
+  .progress {
+  	margin-left:10px;
+  	font-size:12px;
+  }
+  .progressbar {
+  	margin:10px auto;
+  	height:25px;
+  }
+  h3 {
+  	font-size:15px;
+  }​
 </style>
+
 {% endblock %}
 
 {% block rightcol %}
 
+<h3>Credit Progression</h3>
+<div id="graph"></div>
+
+<br />
+<h3>Degree Requirements Breakdown</h3>
 {% for item in progress %}
-<div>
-  <h3>{{ item.degree.name }}</h3>
+<br />
+<div class="progress">
+  <h4>{{ item.degree.name }}:</h4>
+
+  <div class="progressbar">{{ item.completion }}</div>
   {{ item.evaluator|degree_doc }}
 </div>
 {% endfor %}
