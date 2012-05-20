@@ -8,25 +8,31 @@ MyGradPath
 {% block head %}
 {{ block.super }}
 <!--Graph Setup-->
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-<script type="text/javascript">
-	google.load("visualization", "1", {packages:["corechart"]});
-    google.setOnLoadCallback(drawChart);
-    function drawChart() {
-    	var data = google.visualization.arrayToDataTable([
-        	['Date', 'Credits'],
-        	{% for item in graph_entries %}
-				['{{ item.0 }}', {{ item.1 }}],
-			{% endfor %}
-      	]);
+<script type='text/javascript' src='http://www.google.com/jsapi'></script>
+    <script type='text/javascript'>
+      google.load('visualization', '1', {'packages':['annotatedtimeline']});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('date', 'Date');
+        data.addColumn('number', 'Credits');
+        data.addRows([
+          {% for entry in graph_entries %}
+            [new Date( {{ entry.0.year }}, {{ entry.0.month }}, {{ entry.0.day }} ), {{ entry.1 }}],
+          {% endfor %}
+        ]);
 
-      	var options = {
-        	legend: {position: 'none'}
-      	};
-
-      	var chart = new google.visualization.LineChart(document.getElementById('graph'));
-      	chart.draw(data, options);
-    }
+        var chart = new google.visualization.AnnotatedTimeLine(document.getElementById('chart_div'));
+        chart.draw(data, {
+          displayAnnotations: true,
+          displayRangeSelector: false,
+          displayZoomButtons: false,
+          fill: 0,
+          colors: [
+            '#369'
+          ]
+        });
+      }
 </script>
 
 <script>
@@ -42,7 +48,7 @@ MyGradPath
 
 <style>
   .eval-compound > div + div { padding-left: 25px }
-  #graph {
+  #chart_div {
   	margin: 15px auto;
   	width:750px;
   	height:300px;
@@ -68,7 +74,7 @@ MyGradPath
 {% block rightcol %}
 
 <h3>Credit Progression</h3>
-<div id="graph"></div>
+<div id='chart_div'></div>
 
 <br />
 <h3>Degree Requirements Breakdown</h3>
