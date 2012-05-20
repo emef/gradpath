@@ -23,14 +23,14 @@ def progress(request):
         credit_records.sort()
     
         credit_count = 0
-        axis = 15
+        axis = 10
         graph_entries = []
         if credit_records:
             for entry in credit_records:
                 credit_count += entry[1]
                 if credit_count >= axis:
                     graph_entries.append([entry[0], credit_count])
-                    axis += 15
+                    axis += 10
             if graph_entries[-1][0] != credit_records[-1][0]:
                 graph_entries.append([credit_records[-1][0], credit_count])
         else:
