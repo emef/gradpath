@@ -29,10 +29,16 @@ def progress(request):
             for entry in credit_records:
                 credit_count += entry[1]
                 if credit_count >= axis:
-                    graph_entries.append([entry[0], credit_count])
+                    graph_entries.append([
+                        entry[0].strftime("%b, %Y"),
+                        credit_count
+                    ])
                     axis += 10
             if graph_entries[-1][0] != credit_records[-1][0]:
-                graph_entries.append([credit_records[-1][0], credit_count])
+                graph_entries.append([
+                    credit_records[-1][0].strftime("%b, %Y"),
+                    credit_count
+                ])
         else:
             #Ghetto fix to prevent graph API error when there are zero entries
             graph_entries.append([0,0])
