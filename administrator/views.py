@@ -1,6 +1,6 @@
 from django.http import Http404
 from django.shortcuts import redirect
-from gradpath import render_to, contains, extract
+from gradpath import render_to, contains, extract, json_response
 from gradpath.courses.models import Section, Course
 from gradpath.degrees.models import College, Degree
 from datetime import datetime
@@ -68,3 +68,8 @@ def create_admin(request):
 
 def save_degree(request):
     pass
+
+
+def ajax_sections(request):
+    return json_response([section.to_json() for section in Section.objects.all()])
+      

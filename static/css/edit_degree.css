@@ -6,7 +6,7 @@
 }
 
 div.node {
-    border: 1px solid;
+    border: 5px solid #999;
     padding: 10px 10px;
     margin-bottom: 20px !important;
 }
@@ -35,9 +35,49 @@ div.node > div {
 
 div.node > div.buttons {
     position: relative;
-    bottom: -25px;
+    bottom: -28px;
 }
 
 div.requirement {
     font-variant: small-caps;
+}
+
+div#matchmodal { 
+    display: none;
+    width: 500px;
+}
+#modaltabs > span {
+    background-color: orange;
+    padding: 5px;
+    margin: 0px 15px 0px 0px;
+    font-variant: small-caps;
+    font-size: 11pt;
+    cursor: pointer;
+    display: inline-block;
+}
+
+#modaltabs > span.selected {
+    border: 2px solid black;
+}
+
+#modalcourse, #modalfilter {
+    display: none;
+    padding: 15px;
+    font-size: 10pt;
+}
+
+#matchmodal input[type=text] {
+    width: 140px;
+}
+
+#matchmodal label {
+    margin-top: 10px;
+    width: 120px;
+    display: inline-block;
+    text-align: right;
+}
+
+
+#modalcourse.selected, #modalfilter.selected {
+    display: block;
 }

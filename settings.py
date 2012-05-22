@@ -1,4 +1,7 @@
-PROJECT_DIR = '/home/conner/Dropbox/gradpath'
+# Full filesystem path to the project.
+import os
+PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
 XML_PATH = '%s/degrees/xml' % PROJECT_DIR
 
 REQUIRE_ACTIVATION = False

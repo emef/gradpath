@@ -82,9 +82,8 @@ var global = {};
     }
 
     function addmatch(parent) {
-	var dialog = $("<div />");
-	var DEBUGBOX = $("<input type='text' />");
-
+	var dialog = $("#matchmodal");
+	
 	var onclose = function() {
 	    var match = mknode('requirement');
 	    var txt = $("<span />");
@@ -95,7 +94,6 @@ var global = {};
 	    dialog.dialog('close');
 	}
 	
-	dialog.append(DEBUGBOX);
 	dialog.dialog({
 	    autoOpen: false,
 	    open: function(event, ui) { $(".ui-dialog-titlebar-close").hide(); },
@@ -103,10 +101,11 @@ var global = {};
 		"Add": onclose,
 		"Cancel": function() { console.log('discard the match');  $(this).dialog('close'); }
 	    },
+	    width: 500,
 	    draggable: false,
 	    modal: true,
 	    resizable: false,
-	    title: "Add a requirement",
+	    title: "Requirement Editor",
 	    closeOnEscape: false
 	});
 	dialog.dialog('open');
@@ -120,6 +119,25 @@ var global = {};
 	addgroup(degree);
 	
 	global.degree = degree;
+
+	$.ajax({
+	    method: "GET",
+	    url: "/administrator/edit_degree/ajax/sections/",
+	    dataType: "json",
+	}).success(function(sections) {
+	    var source = [];
+	    for (var i=0; i < sections.length; i++) {
+		var obj = sections[i];
+		source.push({label: obj.name, value: obj.abbreviation});
+		source.push({label: obj.abbreviation, value: obj.abbreviation});
+	    }
+	    
+	    $("#matchmodal input[name=section]").each(function() {
+		$(this).autocomplete({
+		    source:source
+		});
+	    });
+	});
     }
     
     $(document).ready(init);

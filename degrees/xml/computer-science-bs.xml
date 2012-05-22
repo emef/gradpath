@@ -1,10 +1,5 @@
 <xml>
   <degree section="CSCI" type="MINOR" year="2011">
-    <group>
-        <match id="2901" />
-        <match id="2902" />
-        <match id="2903" />
-    </group>
     <group minsub="1">
       <group>
 	<match id="547" />

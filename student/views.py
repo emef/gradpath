@@ -35,6 +35,7 @@ def progress(request):
 
         for degree in profile.degrees.all():
             evaluator = parse_degree(degree)
+            print evaluator.credit_worth()
             evaluator.eval(records)
             completion = (float(evaluator.creditcount) / float(evaluator.credit_worth())) * 100
             progress.append({
