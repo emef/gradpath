@@ -2,18 +2,18 @@
 
 {% block head %}
 <style>
-	table {
-		padding:3px;
-		font-size:15px;
-	}
 	td {
+		font-size:12px;
 		border:1px solid black;
+		-moz-box-shadow: 0 0 3px #000;
+		-webkit-box-shadow: 0 0 3px #000;
+		box-shadow: 0 0 3px #000;
 	}
 </style>
 {% endblock %}
 
 {% block rightcol %}
-<table width="100%">
+<table width="100%" cellspacing="5">
 {% for r in records %}
     <tr>
       <td style="text-align:right;padding-right:8px;width:100px;">{{ r.course.section.abbreviation }} {{ r.course.number }}</td>

@@ -2,22 +2,22 @@
 
 {% block head %}
 <style>
-  table {
-  padding:3px;
-  font-size:15px;
-  }
-  td {
-  border:1px solid black;
-  }
+	td {
+		font-size:12px;
+		border:1px solid black;
+		-moz-box-shadow: 0 0 3px #000;
+		-webkit-box-shadow: 0 0 3px #000;
+		box-shadow: 0 0 3px #000;
+	}
 </style>
 {% endblock %}
 
 {% block rightcol %}
-<table width="100%">
+<table width="100%" cellspacing="5">
   {% for d in degrees %}
   <tr>
-    <td width="55%">{{ d.name }}</td>
-    <td width="35%">{{ d.college.name }}</td>
+    <td width="55%" style="padding-left: 8px">{{ d.name }}</td>
+    <td width="35%" style="padding-left: 8px">{{ d.college.name }}</td>
     <td width="7%" style="text-align:center">{{ d.year }}</td>
     <td width="3%"style="text-align:center;width:30px;"><a href="/student/degrees/remove/?id={{ d.id }}"><img src="/img/remove_icon.png" /></a></td>
   </tr>
