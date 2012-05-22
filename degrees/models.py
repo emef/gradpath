@@ -20,7 +20,7 @@ class Degree(models.Model):
     year = models.IntegerField()
 
     def xml(self):
-        return '%s/%s.xml' % (settings.XML_PATH, self.name.replace(' ', '-').lower())
+        return '%s/%s-%s.xml' % (settings.XML_PATH, self.name.replace(' ', '-').lower(), self.year)
     
     def __unicode__(self):
         return 'Degree<%s>' % self.name

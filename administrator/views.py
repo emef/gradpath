@@ -26,11 +26,14 @@ def new_degree(request):
                                         college__id=college_id, 
                                         degree_type=degree_type,
                                         year=year)
+                                        
         except Degree.DoesNotExist:
             # we need to create it
             degree = Degree(name=name, degree_type=degree_type, year=year)
             degree.college_id = college_id
             degree.save()
+            # create xml file
+            open(degree.xml(), "w")
             
         # go edit the degree
         return redirect('administrator.views.edit_degree', id=degree.id)
