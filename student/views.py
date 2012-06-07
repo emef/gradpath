@@ -27,10 +27,7 @@ def progress(request):
             for entry in credit_records:
                 credit_count += entry[1]
                 graph_entries.append([entry[0], credit_count])
-        else:
-            #Ghetto fix to prevent graph API error when there are zero entries
-            graph_entries.append([0,0])
-
+                
         for degree in profile.degrees.all():
             evaluator = parse_degree(degree)
             print evaluator.credit_worth()
@@ -82,6 +79,11 @@ def courses_remove(request):
     profile = request.user.get_profile()
     course = Course.objects.get(id=int(request.GET['id']))
     Record.objects.filter(profile=profile, course=course).delete()
+    return redirect('/student/courses/manage/')
+
+def courses_remove_all(request):
+    profile = request.user.get_profile()
+    profile.records.all().delete()
     return redirect('/student/courses/manage/')
 
 # shows organized view of all courses, allows you to view/add them

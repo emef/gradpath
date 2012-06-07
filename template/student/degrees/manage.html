@@ -13,6 +13,8 @@
 {% endblock %}
 
 {% block rightcol %}
+<h3>Manage Degrees</h3>
+{% if degrees %}
 <table width="100%" cellspacing="5">
   {% for d in degrees %}
   <tr>
@@ -23,4 +25,7 @@
   </tr>
   {% endfor %}
 </table>
+{% else %}
+You have not added any degrees to your account.
+{% endif %}
 {% endblock %}

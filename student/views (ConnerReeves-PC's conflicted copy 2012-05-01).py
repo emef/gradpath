@@ -56,6 +56,11 @@ def courses_remove(request):
     Record.objects.filter(profile=profile, course=course).delete()
     return redirect('/student/courses/manage/')
 
+def courses_remove_all(request):
+    profile = request.user.get_profile()
+    profile.records.all().delete()
+    return redirect('/student/courses/manage/')
+
 # shows organized view of all courses, allows you to view/add them
 def courses_list(request):
     print "hello"

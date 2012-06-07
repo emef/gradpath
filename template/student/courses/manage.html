@@ -13,6 +13,8 @@
 {% endblock %}
 
 {% block rightcol %}
+<h3>Manage Classes</h3>
+{% if records %}
 <table width="100%" cellspacing="5">
 {% for r in records %}
     <tr>
@@ -24,4 +26,9 @@
     </tr>
 {% endfor %}
 </table>
+
+<button><a href="/student/courses/remove_all/">Remove All Courses</a></button>
+{% else %}
+You have not added any classes to your account.
+{% endif %}
 {% endblock %}

@@ -9,6 +9,7 @@ MyGradPath
 {{ block.super }}
 <!--Graph Setup-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+{% if graph_entries %}
 <script type="text/javascript">
 	google.load("visualization", "1", {packages:["corechart"]});
     google.setOnLoadCallback(drawChart);
@@ -30,6 +31,7 @@ MyGradPath
       	chart.draw(data, options);
     }
 </script>
+{% endif %}
 
 <script>
 	$(function() {
@@ -69,8 +71,10 @@ MyGradPath
 
 {% block rightcol %}
 
+{% if graph_entries %}
 <h3>Credit Progression</h3>
 <div id="graph"></div>
+{% endif %}
 
 <br />
 <h3>Degree Requirements Breakdown</h3>
