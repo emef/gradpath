@@ -19,7 +19,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'gradpath.db',                 
+        'NAME': '%s/gradpath.db' % PROJECT_DIR,                 
         'USER': '',         
         'PASSWORD': '',     
         'HOST': '',         

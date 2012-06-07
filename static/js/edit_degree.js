@@ -99,7 +99,25 @@ var global = {};
 	return node;
     }
 
+    function get_course_by_id(id, cb) {
+	$.ajax({
+	    type:"POST",
+	    data: {id: id},
+	    dataType: "json",
+	    url: "/administrator/edit_degree/ajax/get_course_by_id/",
+	    success: function(r) { 
+		if (!r.error) 
+		    cb(r);
+		else
+		    console.log('ERROR:', r.error);
+	    }
+	});
+    }
+
+    global.gcbi = get_course_by_id;
+    
     function get_courses(courses, cb) {
+	return;
 	$.ajax({
 	    type:"POST",
 	    data: {courses: JSON.stringify(courses)},
@@ -321,6 +339,8 @@ var global = {};
 		    else
 			new_node = mkcontainer(node.node_type, 'repeatable' != node.node_type);
 		    
+		    mkbutton(new_node, 'delete', deletenode);
+		    
 		    for (key in node) {
 			if (in_array(key, allowed)) {
 			    new_node[key] = node[key];
@@ -328,9 +348,14 @@ var global = {};
 				new_node.minmap[key].val(node[key]);
 			}
 			if (key == 'id') {
-			    get_courses([node.id], function (course) {
-				console.log(course);
-			    });
+			    (function (dest) {
+				get_course_by_id(node.id, function (course) {
+				    var txt = course.section.abbreviation + ' ' + course.number;
+				    txt += ': ' + course.title;
+				    span = $("<span>" + txt + "</span>");
+				    span.insertBefore(dest);
+				});
+			    })(new_node.btns);
 			}
 		    }
 

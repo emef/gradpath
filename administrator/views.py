@@ -145,3 +145,14 @@ def ajax_get_courses(request):
 
     except ValueError:
         return json_response({'error': 'Invalid arguments'})
+
+def ajax_get_course_by_id(request):
+    try:
+        id = int(request.POST['id'])
+        c = Course.shortcut(id)
+        if c != None:
+            return json_response(c.to_json())
+        
+    except:
+        pass
+    return json_response({'error': 'BAD'})
