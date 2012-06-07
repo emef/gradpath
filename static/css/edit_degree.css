@@ -1,3 +1,15 @@
+/* Overlay */
+#simplemodal-overlay {background-color:#000; cursor:wait;}
+
+/* Container */
+#simplemodal-container {width:500px; color:#444; background-color:white; border:4px solid #444; padding:12px;}
+#simplemodal-container .simplemodal-data {padding:8px;}
+#simplemodal-container code {background:#141414; border-left:3px solid #65B43D; color:#bbb; display:block; font-size:12px; margin-bottom:12px; padding:4px 6px 6px;}
+#simplemodal-container a {color:#ddd;}
+#simplemodal-container a.modalCloseImg {background:url(../img/x.png) no-repeat; width:25px; height:29px; display:inline; z-index:3200; position:absolute; top:-15px; right:-16px; cursor:pointer;}
+#simplemodal-container h3 {color:#84b8d9;}
+
+
 .req {
     margin-bottom:15px;	
 }
@@ -38,19 +50,21 @@ div.node > div.buttons {
     bottom: -28px;
 }
 
-div.requirement {
-    font-variant: small-caps;
+div.requirement ul{
+    margin-left: 40px;
 }
 
 div#matchmodal { 
     display: none;
     width: 500px;
 }
+
+
 #modaltabs > span {
+    color: black;
     background-color: orange;
     padding: 5px;
     margin: 0px 15px 0px 0px;
-    font-variant: small-caps;
     font-size: 11pt;
     cursor: pointer;
     display: inline-block;
