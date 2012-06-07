@@ -17,8 +17,7 @@ def progress(request):
         profile = request.user.get_profile()
         progress = []
         records = dict([(r.course.id, r) for r in profile.records.all()])
-        
-        #Begin graph data organization
+
         credit_records = [(r.date, r.course.credits) for r in profile.records.all()]
         credit_records.sort()
     
@@ -31,7 +30,6 @@ def progress(request):
         else:
             #Ghetto fix to prevent graph API error when there are zero entries
             graph_entries.append([0,0])
-        #End graph data organization
 
         for degree in profile.degrees.all():
             evaluator = parse_degree(degree)
@@ -48,8 +46,7 @@ def progress(request):
                 'graph_entries': graph_entries
             })
     else:
-        # need to add a "please log in" message
-        return render_to(request, 'student/student_base.html')
+        return render_to(request, 'student/anon.html')
 
 ######################################################################
 # COURSE VIEWS

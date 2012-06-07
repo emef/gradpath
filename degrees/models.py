@@ -21,7 +21,7 @@ class Degree(models.Model):
     year = models.IntegerField()
 
     def xml(self):
-        return '%s/%s.xml' % (settings.XML_PATH, self.name.replace(' ', '-').lower())
+        return '%s/%s-%s.xml' % (settings.XML_PATH, self.name.replace(' ', '-').lower(), self.year)
     
     def __unicode__(self):
         return 'Degree<%s>' % self.name
@@ -33,7 +33,7 @@ class Degree(models.Model):
             'degree_type': self.degree_type,
             'year': self.year
         }
-
+    
     def xml_to_json(self):
         evaluator = parse_degree(self)
         valid_attrs = ['node_type', 'mincredits', 'maxcredits', 'minsub', 
@@ -55,8 +55,5 @@ class Degree(models.Model):
                 
             return node
 
-        from pprint import pprint
-        val = mk_node(evaluator)
-        pprint(val)
-        return val
-        #return mk_node(evaluator)
+        return mk_node(evaluator)
+    

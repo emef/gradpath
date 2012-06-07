@@ -4,6 +4,7 @@ from django.core.management import setup_environ
 import settings, sys, re
 setup_environ(settings)
 from courses.models import Course, Section
+from degrees.models import College
 
 def populate_sections():
     from data.section_list import SECTIONS
@@ -70,10 +71,21 @@ def populate_courses():
             
     add_prereqs()
             
+def populate_colleges():
+    from data.college_list import COLLEGES
+
+    #remove old colleges
+    for college in College.objects.all():
+        college.delete()
+        
+    for line in COLLEGES.splitlines():
+        c = College(name=line)
+        c.save()
 
 IMPORT_FNS = {
     'sections': populate_sections,
     'courses': populate_courses,
+    'colleges': populate_colleges
 }
 
 if __name__ == '__main__':

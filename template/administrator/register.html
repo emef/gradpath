@@ -1,0 +1,39 @@
+{% extends "student/student_base.html" %}
+{% block rightcol %}
+
+<h2>Register New Administrator</h2>
+<form method="post" action="" class="register">
+  {% csrf_token %}
+  <table>
+    <tr>
+      <td>Admin Username</td>
+      <td>
+	<input type="text" name="username" value="{{username}}" />
+      </td>
+      <td>{{errors.username}}</td>
+    </tr>
+    
+    <tr>
+      <td>Password</td>
+      <td>
+	<input type="password" name="password1" />
+      </td>
+      <td>{{errors.password1}}</td>
+    </tr>
+
+    <tr>
+      <td>Repeat Password</td>
+      <td>
+	<input type="password" name="password2" />
+      </td>
+      <td>{{errors.password2}}</td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td>
+	<input type="submit" value="Register" />
+      </td>
+    </tr>
+  </table>
+</form>
+{% endblock %}
